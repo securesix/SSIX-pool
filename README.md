@@ -1,4 +1,4 @@
-turtle-pool
+pinkstar-pool
 ====================
 Formerly known as cryptonote-forknote-pool, forked from Forknote Project.
 
@@ -88,7 +88,7 @@ Usage
 ===
 
 #### Requirements
-* Turtlecoind daemon
+* PinkstarcoinV2 daemon
 * walletd
 * [Node.js](http://nodejs.org/) v0.10+ ([follow these installation instructions](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager))
 * [Redis](http://redis.io/) key-value store v2.6+ ([follow these instructions](http://redis.io/topics/quickstart))
@@ -118,7 +118,7 @@ sudo ln -s /usr/bin/nodejs /usr/bin/node
 Clone the repository and run `npm update` for all the dependencies to be installed:
 
 ```bash
-git clone https://github.com/turtlecoin/turtle-pool pool
+git clone https://github.com/mtl1979/pinkstar-pool pool
 cd pool
 npm update
 ```
@@ -129,16 +129,16 @@ npm update
 Explanation for each field:
 ```javascript
 /* Used for storage in redis so multiple coins can share the same redis instance. */
-"coin": "dashcoin",
+"coin": "pinkstarcoin",
 
 /* Used for front-end display */
-"symbol": "DSH",
+"symbol": "PSTAR",
 
 /* Minimum units in a single coin, see COIN constant in DAEMON_CODE/src/cryptonote_config.h */
-"coinUnits": 1000000000000,
+"coinUnits": 100,
 
 /* Coin network time to mine one block, see DIFFICULTY_TARGET constant in DAEMON_CODE/src/cryptonote_config.h */
-"coinDifficultyTarget": 120,
+"coinDifficultyTarget": 240,
 
 "logging": {
 
@@ -174,7 +174,7 @@ Explanation for each field:
     "clusterForks": "auto",
 
     /* Address where block rewards go, and miner payments come from. */
-    "poolAddress": "D6WLtrV1SBWV8HWQzQv8uuYuGy3uwZ8ah5iT5HovSqhTKMauquoTsKP8RBJzVqVesX87poYWQgkGWB4NWHJ6Ravv93v4BaE"
+    "poolAddress": "P6aAjbNThymhBeWCpe3d8xQZ9EPjayHpGA7a2ZZwQupFLjdBQ7EfEKCY1i17rTo8vvRepkHWnGyH4c5pqprzTrgV2htsiQumK"
 
     /* Poll RPC daemons for new blocks every this many milliseconds. */
     "blockRefreshInterval": 1000,
@@ -288,13 +288,13 @@ Explanation for each field:
 /* Coin daemon connection details. */
 "daemon": {
     "host": "127.0.0.1",
-    "port": 29081
+    "port": 39984
 },
 
 /* Wallet daemon connection details. */
 "wallet": {
     "host": "127.0.0.1",
-    "port": 29082,
+    "port": 8070,
     "password": "<replace with rpc password>"
 },
 
@@ -312,7 +312,7 @@ Explanation for each field:
     },
     "wallet": {
         "checkInterval": 60,
-        "rpcMethod": "get_address_count"
+        "rpcMethod": "getBalance"
     }
 
 /* Collect pool statistics to display in frontend charts  */
@@ -499,20 +499,17 @@ curl 127.0.0.1:18081/json_rpc -d '{"method":"getblockheaderbyheight","params":{"
 
 ### Configuring Blockchain Explorer
 
-You need the latest stable version of Forknote for the blockchain explorer - [forknote releases](https://github.com/forknote/forknote/releases)
-* Add the following code to the coin's config file:
+You need the latest stable version of PinkstarcoinV2d from [Pinkstar Discord channel](https://discord.gg/CaVQQNT).
+* Start the daemon with:
 
 ```
-rpc-bind-ip=0.0.0.0
-enable-blockchain-indexes=1
-enable-cors=*
+PinkstarcoinV2d.exe --enable_blockexplorer --rpc-bind-ip 0.0.0.0 --enable-cors *
 ```
 
-* Launch forknoted with the corresponding config file
 * Change the following line in the pool's frontend config.json:
 
 ```
-var api_blockexplorer = "http://daemonhost.com:1118";
+var api_blockexplorer = "http://daemonhost.com:39984";
 ```
 
 

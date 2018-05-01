@@ -1,8 +1,8 @@
 {
-    "coin": "turtlecoin",
-    "symbol": "TRTL",
+    "coin": "pinkstarcoin",
+    "symbol": "PSTAR",
     "coinUnits": 100,
-    "coinDifficultyTarget": 30,
+    "coinDifficultyTarget": 240,
 
     "logging": {
         "files": {
@@ -19,7 +19,7 @@
   "poolServer": {
     "enabled": true,
     "clusterForks": "auto",
-    "poolAddress": "TRTLv3mnq2wS6GepH6nb628jEjFseeojACYToJ1BXaZNNEvLkzW327zTVCh7ncGtS2MU2usGNq9ygVwiCTTft9QkN3t5P2Xqv3f",
+    "poolAddress": "P6aAjbNThymhBeWCpe3d8xQZ9EPjayHpGA7a2ZZwQupFLjdBQ7EfEKCY1i17rTo8vvRepkHWnGyH4c5pqprzTrgV2htsiQumK",
     "blockRefreshInterval": 1000,
     "minerTimeout": 3600,
     "ports": [
@@ -110,7 +110,7 @@
 
     "daemon": {
         "host": "127.0.0.1",
-        "port": 11898
+        "port": 39984
     },
 
     "wallet": {
