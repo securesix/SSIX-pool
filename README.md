@@ -464,17 +464,12 @@ the Node.js modules, and any config files that may have been changed.
 
 ### Setting up Testnet
 
-No cryptonote based coins have a testnet mode (yet) but you can effectively create a testnet with the following steps:
+You can create a testnet with the following steps:
 
-* Open `/src/p2p/net_node.inl` and remove lines with `ADD_HARDCODED_SEED_NODE` to prevent it from connecting to mainnet (Monero example: http://git.io/0a12_Q)
-* Build the coin from source
 * You now need to run two instance of the daemon and connect them to each other (without a connection to another instance the daemon will not accept RPC requests)
-  * Run first instance with `./forknoted --p2p-bind-port 28080 --allow-local-ip`
-  * Run second instance with `./forknoted --p2p-bind-port 5011 --rpc-bind-port 5010 --add-peer 0.0.0.0:28080 --allow-local-ip`
+  * Run first instance with `./PinkstarcoinV2d --testnet --p2p-bind-port 28080 --allow-local-ip`
+  * Run second instance with `./PinkstarcoinV2d --testnet --p2p-bind-port 5011 --rpc-bind-port 5010 --add-peer 0.0.0.0:28080 --allow-local-ip`
 * You should now have a local testnet setup. The ports can be changes as long as the second instance is pointed to the first instance, obviously
-
-*Credit to surfer43 for these instructions*
-
 
 ### JSON-RPC Commands from CLI
 
@@ -486,7 +481,7 @@ Documentation for JSON-RPC commands can be found here:
 Curl can be used to use the JSON-RPC commands from command-line. Here is an example of calling `getblockheaderbyheight` for block 100:
 
 ```bash
-curl 127.0.0.1:18081/json_rpc -d '{"method":"getblockheaderbyheight","params":{"height":100}}'
+curl 127.0.0.1:39984/json_rpc -d '{"method":"getblockheaderbyheight","params":{"height":100}}'
 ```
 
 
@@ -516,6 +511,7 @@ var api_blockexplorer = "http://daemonhost.com:39984";
 Credits
 ===
 
+* [mtl1979](//github.com/mtl1979) - Modifications for PinkstarcoinV2
 * [LucasJones](//github.com/LucasJones) - Co-dev on this project; did tons of debugging for binary structures and fixing them. Pool couldn't have been made without him.
 * [surfer43](//github.com/iamasupernova) - Did lots of testing during development to help figure out bugs and get them fixed
 * [wallet42](http://moneropool.com) - Funded development of payment denominating and min threshold feature
