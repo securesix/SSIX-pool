@@ -91,8 +91,8 @@
     function getPaymentCells(payment){
         return '<td>' + formatDate(payment.time) + '</td>' +
                 '<td>' + formatPaymentLink(payment.hash) + '</td>' +
-                '<td>' + getReadableCoins(payment.amount, 4, true) + '</td>' +
-                '<td>' + getReadableCoins(payment.fee, 4, true) + '</td>' +
+                '<td>' + getReadableCoins(payment.amount, 2, true) + '</td>' +
+                '<td>' + getReadableCoins(payment.fee, 2, true) + '</td>' +
                 '<td>' + payment.mixin + '</td>' +
                 '<td>' + payment.recipients + '</td>';
     }

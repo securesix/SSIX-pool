@@ -84,6 +84,26 @@
 </div>
 
 <div class="row">
+
+    <div class="col-md-4 stats">
+        <h3>Our Pool</h3>
+        <div><i class="fa fa-tachometer"></i> Hash Rate: <span id="poolHashrate"></span></div>
+        <div><i class="fa fa-users"></i> Connected Miners: <span id="poolMiners"></span></div>
+        <div><i class="fa fa-clock-o"></i> Block Found: <span id="poolLastBlockFound"></span></div>
+        <div id="donations"><i class="fa fa-gift"></i> Donations: <span id="poolDonations"></span></div>
+        <div><i class="fa fa-history"></i> Average Block Time: <span id="blockSolvedTime"></span></div>
+        <div><i class="fa fa-money"></i> Pool Fee: <span id="poolFee"></span></div>
+        <div><i class="fa fa-clock-o"></i> Round Time: <span id="elapsedroundtime" target="_blank"></span></div>
+        <div><i class="fa fa-users"></i> Round hashes: <span id="poolRoundHashes"></span></div>
+	    <div><i class="fa fa-star-half-o"></i>Current Block Effort: <span id="currentEffort"></span></div>
+        <div>
+          <i class="fa fa-bar-chart-o"></i> Pool load: <span id="poolLoad"></span>
+          <span data-toggle="tooltip" title="The average system load of the last 15 minutes. The closer this gets to 1, the more overloaded the pool is." class="fa fa-question-circle">
+          </span>
+        </div>
+    </div>
+
+
     <div class="col-md-4 stats">
         <h3>Network</h3>
         <div><i class="fa fa-tachometer"></i> Hash Rate: <span id="networkHashrate"></span></div>
@@ -94,14 +114,20 @@
         <div><i class="fa fa-paw"></i> Last Hash: <a id="lastHash" target="_blank"></a></div>
     </div>
 
-    <div class="col-md-4 stats">
-        <h3>Our Pool</h3>
-        <div><i class="fa fa-tachometer"></i> Hash Rate: <span id="poolHashrate"></span></div>
-        <div><i class="fa fa-clock-o"></i> Block Found: <span id="poolLastBlockFound"></span></div>
-        <div><i class="fa fa-users"></i> Connected Miners: <span id="poolMiners"></span></div>
-        <div id="donations"><i class="fa fa-gift"></i> Donations: <span id="poolDonations"></span></div>
-        <div><i class="fa fa-money"></i> Total Pool Fee: <span id="poolFee"></span></div>
-        <div><i class="fa fa-history"></i> Block Found Every: <span id="blockSolvedTime"></span> (est.)</div>
+    <div class="col-md-4">
+        <h3>Top 10 Miners</h3>
+        <div class="table-responsive top10" style="margin:0 !important; padding:0 !important;">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Miner</th>
+                    <th>Hashrate</th>
+                </tr>
+            </thead>
+            <tbody id="top10_rows"></tbody>
+        </table>
+        </div>
     </div>
 
     <div class="col-md-4 stats marketRate">
@@ -111,7 +137,7 @@
     </div>
 </div>
 
-<!-- <hr> -->
+<hr>
 
 <div class="row chartsPoolStat">
     <div class="col-sm-2 chartWrap">
@@ -216,7 +242,7 @@
             <input type="number" class="form-control" id="calcHashRate" placeholder="Enter Your Hash Rate">
             <div class="input-group-btn">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="calcHashDropdown">
-                    <span id="calcHashUnit" data-mul="1">KH/s</span> <span class="caret"></span>
+                    <span id="calcHashUnit" data-mul="0">H/s</span> <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right" role="menu" id="calcHashUnits">
                     <li><a href="#" data-mul="0">H/s</a></li>
@@ -309,6 +335,7 @@
                 xhrMarketGets[marketPoll].abort();
             }
             if (xhrGetPayments) xhrGetPayments.abort();
+            if (xhrGetTOP) xhrGetTOP.abort();
         },
         init: function(){
         },
@@ -317,10 +344,12 @@
             $('#networkLastBlockFound').timeago('update', new Date(lastStats.network.timestamp * 1000).toISOString());
 
             updateText('networkHashrate', getReadableHashRateString(lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + '/sec');
-            updateText('networkDifficulty', lastStats.network.difficulty.toString());
+            updateText('networkDifficulty', getReadableDifficultyString(lastStats.network.difficulty));
             updateText('blockchainHeight', lastStats.network.height.toString());
             updateText('networkLastReward', getReadableCoins(lastStats.network.reward, 4));
             updateText('lastHash', lastStats.network.hash.substr(0, 13) + '...').setAttribute('href', getBlockchainUrl(lastStats.network.hash));
+
+            updateText('currentEffort', (lastStats.pool.roundHashes / lastStats.network.difficulty * 100).toFixed(1) + '%');
 
             updateText('poolHashrate', getReadableHashRateString(lastStats.pool.hashrate) + '/sec');
 
@@ -331,7 +360,7 @@
             else
                 $('#poolLastBlockFound').removeAttr('title').data('ts', '').update('Never');
 
-            //updateText('poolRoundHashes', lastStats.pool.roundHashes.toString());
+            updateText('poolRoundHashes', getReadableDifficultyString(lastStats.pool.roundHashes));
             updateText('poolMiners', lastStats.pool.miners.toString());
 
 
@@ -355,6 +384,19 @@
             updateText('calcHashSymbol', lastStats.config.symbol);
 
             calcEstimateProfit();
+
+            // Get the 15 minute average load.
+            var averageLoad = lastStats.system.load[2];
+            averageLoad = averageLoad / lastStats.system.number_cores;
+            updateText('poolLoad', averageLoad.toFixed(2));
+
+            var shareCount = lastStats.pool.roundHashes;
+
+            if (lastStats.pool.lastBlockFound){
+                var datacur = new Date() - new Date(parseInt(lastStats.pool.lastBlockFound));
+                $("#elapsedroundtime").html(new Date(datacur).toISOString().split("T")[1].split(".")[0]);
+            }
+
         }
     };
 
@@ -381,6 +423,45 @@
     }
 
 
+    function getReadableHashRateString(hashrate){
+        var i = 0;
+        var byteUnits = [' H', ' KH', ' MH', ' GH', ' TH', ' PH' ];
+        while (hashrate > 1024){
+            hashrate = hashrate / 1024;
+            i++;
+        }
+        return hashrate.toFixed(2) + byteUnits[i];
+    }
+
+    function getReadableHashShare(hash){
+        var i = 0;
+        var byteUnits = [' Shares', 'K Shares', 'M Shares', 'G Shares', 'T Shares', 'P Shares' ];
+        while (hash > 1000){
+            hash = hash / 1000;
+            i++;
+        }
+        return hash.toFixed(2) + byteUnits[i];
+    }
+
+    /* Top 10 miners */
+    var xhrGetTOP = $.ajax({
+        url: api + '/get_top10miners',
+        data: {
+            time: $('#top10_rows').children().last().data('time')
+        },
+        dataType: 'json',
+        cache: 'false',
+        success: function(data){
+            render(data);
+        }
+    });
+    function render(data){
+        for (var i=0; i<data.length; ++i) {
+            var r = data[i];
+            var app = '<tr><td>'+(i+1)+'</td>'+'<td>'+r.miner+'</td>'+'<td>'+getReadableHashRateString(r.hashrate)+'/s</td></tr>';
+            $( "#top10_rows" ).append(app);
+        }
+    }
 
 
     /* Market data polling */
@@ -440,7 +521,7 @@
             var hashRate = parseFloat($('#calcHashRate').val()) * rateUnit;
             var profit = (hashRate * 86400 / lastStats.network.difficulty) * lastStats.network.reward;
             if (profit) {
-                updateText('calcHashAmount', getReadableCoins(profit, 2, true));
+                updateText('calcHashAmount', getReadableCoins(profit, 4, true));
                 return;
             }
         }
@@ -518,7 +599,7 @@
                         updateText('yourLastShare', 'Never');
 
                     updateText('yourHashrateHolder', (data.stats.hashrate || '0 H') + '/sec');
-                    updateText('yourHashes', (data.stats.hashes || 0).toString());
+                    updateText('yourHashes', getReadableHashesString(data.stats.hashes));
                     updateText('yourPaid', getReadableCoins(data.stats.paid));
                     updateText('yourPendingBalance', getReadableCoins(data.stats.balance));
 
