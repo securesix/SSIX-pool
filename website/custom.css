@@ -219,7 +219,7 @@ footer {
 *** charts ***
 ************************************************/
 .chartsPoolStat {
-  padding-top: 30px;
+  padding-top: 10px;
 }
 
 .chartWrap {
@@ -267,7 +267,7 @@ footer {
 /************************************************
 *** 20% width block ***
 ************************************************/
-.col-sm-20 {
+.col-sm-20, .col-sm-33 {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
@@ -277,6 +277,11 @@ footer {
   .col-sm-20 {
     float: left;
     width: 20%;
+  }
+
+  .col-sm-33 {
+    float: left;
+    width: 33%;
   }
 }
 /************************************************
