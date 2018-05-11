@@ -120,6 +120,7 @@ Clone the repository and run `npm update` for all the dependencies to be install
 ```bash
 git clone https://github.com/mtl1979/pinkstar-pool pool
 cd pool
+npm config set strict-ssl false
 npm update
 ```
 
