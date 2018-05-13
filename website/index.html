@@ -270,6 +270,13 @@
         }
     }
 
+    // Get current miner address
+    function getCurrentAddress() {
+        var urlWalletAddress = location.search.split('wallet=')[1] || 0;
+        var address = urlWalletAddress || docCookies.getItem('mining_address');
+        return address;
+    }
+
     function pulseLiveUpdate(){
         var stats_update = document.getElementById('stats_updated');
         stats_update.style.transition = 'opacity 100ms ease-out';
@@ -408,9 +415,20 @@
                     <i class="fa fa-chain"></i> Network
                 </a></li>
 
-                <li><a class="hot_link" data-page="worker_stats.html" href="#worker_stats">
-                    <i class="fa fa-tachometer"></i> Worker Stats
-                </a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-tachometer"></i> Workers
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="hot_link" data-page="worker_stats.html" href="#worker_stats">
+                            <i class="fa fa-tachometer"></i> Worker Stats
+                        </a></li>
+
+                        <li><a class="hot_link" data-page="settings.html" href="#settings">
+                            <i class="fa fa-gears"></i> <span tkey="settings">Settings</span>
+                        </a></li>
+                    </ul>
+                </li>
 
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-comments"></i> Support

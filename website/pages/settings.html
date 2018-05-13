@@ -1,0 +1,145 @@
+<!-- Verification -->
+<h3><span tkey="verification">Verification</span></h3>
+
+<div class="card padding-15 padding-b-10">
+    <p><span tkey="minerVerification">In order to get a little more confidence that the wallet address is yours we ask you to give one of the IP addresses that is used by your miner.</span></p>
+    <div>
+      <div id="action_update_message" role="alert" ></div>
+    </div>
+    <div class="row push-down-5">
+        <label class="col-lg-2 col-sm-3 col-form-label col-form-label-lg" for="yourAddress"><span tkey="minerAddress">Miner Address</span>:</label>
+        <div class="col-md-10 col-sm-9">
+            <input class="form-control" id="yourAddress" type="text" tplaceholder="enterYourAddress" placeholder="Enter Your Address">
+        </div>
+    </div>
+    <div class="row push-down-5">
+        <label class="col-lg-2 col-sm-3 col-form-label col-form-label-lg" for="yourIP"><span tkey="minerIP">Miner IP address</span>:</label>
+        <div class="col-md-4 col-sm-5">
+            <input class="form-control" id="yourIP" type="text" tkey="enterYourMinerIP" placeholder="An IP address your miners use (any)">
+        </div>
+    </div>
+</div>
+
+<!-- Minimum payout level -->
+<h3><span tkey="setMinimumPayout">Set your minimal payout level</span></h3>
+<div class="card padding-15 padding-b-10">
+    <p><span tkey="minerMinPayout">If you prefer a higher payout level than the pool's default then this is where you can change it for your miners. The amount you indicate here will become the minimum amount for pool payments to your address.</span></p>
+    <div class="row">
+        <label class="col-lg-2 col-sm-3 col-form-label col-form-label-lg" for="yourPayoutRate"><span tkey="minimumPayout">Minimum payout</span>:</label>
+        <div class="col-sm-2 push-down-5">
+          <input class="form-control" id="yourPayoutRate" type="number" value="">
+        </div>
+        <div class="col-sm-4 push-down-5">
+            <button class="btn btn-default" type="button" id="payoutSetButton">
+                <span><i class="fa fa-check"></i>&nbsp; <span tkey="set">Set</span></span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Update current page
+currentPage = {
+    destroy: function(){},
+    init: function(){
+        $('#yourPayoutRate').val(getReadableCoins(lastStats.config.minPaymentThreshold, 2, true));
+    },
+    update: function(){}
+};
+
+// Set current address and load initial values
+var address = getCurrentAddress();
+if (address){
+    $('#yourAddress').val(address);
+    getPayoutLevel(address);
+}
+
+/**
+ * Error Message
+ **/
+function showError(message, extra) {
+    message = message.trim();
+    if (extra) message += ' ' + extra;
+    $('#action_update_message').text(message);
+    $('#action_update_message').removeClass().addClass('alert alert-danger');
+}
+
+/**
+ * Success Message
+ **/
+function showSuccess(message) {
+    $('#action_update_message').text(message);
+    $('#action_update_message').removeClass().addClass('alert alert-success');
+}
+
+/**
+ * Payout level
+ **/
+
+// Get current payout level
+function getPayoutLevel(address) {
+    if (!address || address == '') return;
+    
+    $.ajax({
+        url: api + '/get_miner_payout_level',
+        data: {
+            address: address
+        },
+        dataType: 'json',
+        cache: 'false'
+    }).done(function(data){
+        if (data.level != undefined) {
+            $('#yourPayoutRate').val(data.level);
+        }
+    });
+} 
+
+// Set payout level
+function setPayoutLevel(address, ip, level) {
+    $.ajax({
+        url: api + '/set_miner_payout_level',
+        data: {
+            address: address,
+            ip: ip,
+            level: level
+        },
+        dataType: 'json',
+        cache: 'false'
+    }).done(function(data){
+        if (data.status == 'done') {
+            showSuccess('Done! Your minimum payout level was set');
+        } else {
+            showError('Error:', data.status);
+        }
+    });
+}
+
+// Handle click on Set button
+$('#payoutSetButton').click(function(){
+    var address = $('#yourAddress').val().trim();
+    if (!address || address == '') {
+        showError('No miner address specified');
+        return;
+    }
+
+    var ip = $('#yourIP').val().trim();
+    if (!ip || ip == '') {
+        showError('No miner IP address specified');
+        return;
+    }
+
+    var level = $('#yourPayoutRate').val().trim();
+    if (!level || level < 0) {
+        showError('No payout level specified');
+        return;
+    }
+
+    if (level < lastStats.config.minPaymentThreshold / lastStats.config.coinUnits) {
+        showError("Payout level can't be less than pool minimum payment threshold", getReadableCoins(lastStats.config.minPaymentThreshold));
+        return;
+    }
+
+    setPayoutLevel(address, ip, level);
+});
+      
+</script>

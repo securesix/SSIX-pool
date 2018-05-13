@@ -273,6 +273,7 @@
         <div class="col-sm-4 stats">
             <div id="addressError"></div>
             <!-- <div class="yourStats"><i class="fa fa-key"></i> Address: <span id="yourAddressDisplay"></span></div> -->
+            <div class="yourStats"><i class="fa fa-dollar"></i> Minimum Payout: <span id="paymentsMinimum"></span></div>
             <div class="yourStats"><i class="fa fa-bank"></i> Pending Balance: <span id="yourPendingBalance"></span></div>
             <div class="yourStats"><i class="fa fa-money"></i> Total Paid: <span id="yourPaid"></span></div>
             <div class="yourStats"><i class="fa fa-clock-o"></i> Last Share Submitted: <span id="yourLastShare"></span></div>
@@ -294,7 +295,7 @@
                     
                 </div> 
             </div>
-        </div>       
+        </div>
     </div>
     
 
@@ -379,6 +380,27 @@
 
             updateText('poolFee', /*floatToString(totalFee)*/ totalFee + '%');
 
+            var address = $('#yourStatsInput').val().trim();
+            if (address != '') {
+                $.ajax({
+                    url: api + '/get_miner_payout_level',
+                    data: {
+                        address: address
+                    },
+                    dataType: 'json',
+                    cache: 'false'
+                }).done(function(data){
+                    if (data.level == undefined) {
+                        updateText('paymentsMinimum', getReadableCoins(lastStats.config.minPaymentThreshold));
+                    }
+                    else {
+                        updateText('paymentsMinimum', getReadableCoins(data.level * lastStats.config.coinUnits));
+                    }
+                });
+            }
+            else {
+                updateText('paymentsMinimum', getReadableCoins(lastStats.config.minPaymentThreshold));
+            }
 
             updateText('blockSolvedTime', getReadableTime(lastStats.network.difficulty / lastStats.pool.hashrate));
             updateText('calcHashSymbol', lastStats.config.symbol);
