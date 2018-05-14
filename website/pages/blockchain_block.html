@@ -1,4 +1,4 @@
-<style>
+﻿<style>
 
 </style>
 
@@ -102,8 +102,8 @@
 
     function getTransactionCells(transaction){
         return '<td>' + formatPaymentLink(transaction.hash) + '</td>' +
-                '<td>' + getReadableCoins(transaction.fee, 4, true) + '</td>' +
-                '<td>' + getReadableCoins(transaction.amount_out, 4, true) + '</td>' +
+                '<td>' + getReadableCoins(transaction.fee, 2, true) + '</td>' +
+                '<td>' + getReadableCoins(transaction.amount_out, 2, true) + '</td>' +
                 '<td>' + transaction.size + '</td>';
     }
 
