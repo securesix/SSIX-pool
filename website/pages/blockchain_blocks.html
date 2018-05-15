@@ -1,4 +1,7 @@
 <style>
+    .blocksStatHolder{
+        font-size: 90%;
+    }
     .blocksStatHolder > span{
         display: inline-block;
         border-radius: 5px;
@@ -113,6 +116,7 @@
     <span class="bg-primary">Hash Rate: <span id="networkHashrate"></span></span>
     <span class="bg-primary">Difficulty: <span id="networkDifficulty"></span></span>
     <span class="bg-primary">Total coins in the network: <span id="totalCoins"></span></span>
+    <span class="bg-primary">Total transactions in the network: <span id="totalTransactions"></span></span>
 </div>
 
 <hr>
@@ -196,6 +200,7 @@
             cache: 'false',
             success: function(data){
                 updateText('totalCoins', getReadableCoins(data.result.block.alreadyGeneratedCoins));
+                updateText('totalTransactions', data.result.block.alreadyGeneratedTransactions);
             }
         });
     }
