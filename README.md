@@ -513,12 +513,25 @@ Credits
 ===
 
 * [mtl1979](//github.com/mtl1979) - Modifications for PinkstarcoinV2
+* [leisegang](//github.com/leisegang) - Modifications for PinkstarcoinV2, Top 10 miners
 * [LucasJones](//github.com/LucasJones) - Co-dev on this project; did tons of debugging for binary structures and fixing them. Pool couldn't have been made without him.
 * [surfer43](//github.com/iamasupernova) - Did lots of testing during development to help figure out bugs and get them fixed
 * [wallet42](http://moneropool.com) - Funded development of payment denominating and min threshold feature
 * [Wolf0](https://bitcointalk.org/index.php?action=profile;u=80740) - Helped try to deobfuscate some of the daemon code for getting a bug fixed
 * [Tacotime](https://bitcointalk.org/index.php?action=profile;u=19270) - helping with figuring out certain problems and lead the bounty for this project's creation
 * [fancoder](https://github.com/fancoder/) - See his repo for the changes
+
+Donations
+===
+
+If you want to support development of pinkstar-pool, you can send donations using following addresses:
+* BCH: qryfpsnz3v607kupyrvnjgqang7urfj0fsetc3a9mf
+* BTC: 1D1YBHmFkd4J7bEG6PYfZBLoXtp98hKsfw
+* ETH: 0xc1d2DDB00c5B110855FAD9E2C7b8157D358b050e
+* ETN: etnjxvV1JwWJRCdbZETJ4d1NZAH1bmQyBBwfyJsB6cDKDj1U6fXcRnvJhDJZ5QJGG3Cqm3fLTA7ZCABhfa2fyb6P2Fwj1asPy2
+* ITNS: iz4zpuXFmwVKsKYmHZt2TzHd7BaSuUiep9VxCEBvCgPy3ijAkVb2ZMhVp7shCyrYvmGmcWoByUBJW3NqyAGMD1KX2oTNvZKFT
+* LTC: MAaio5kmZbzcJ8VGfSwtKQKdho8KK7GsTo
+* PSTAR: P6ZDs32zWmAgoXE6Caom2L7nNaKRtNjqvFsv6NQp8XzUZsB47V8XRPCG7dzLf59KPMXhyjLpPbSqyWaYpaDNwV121EFsG4Btr
 
 License
 -------
