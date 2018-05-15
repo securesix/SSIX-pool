@@ -139,6 +139,13 @@
         }
     }
 
+    function updateTitleText(elementId, text){
+        var el = document.getElementById(elementId);
+        if (el.title !== text){
+            el.title = text;
+        }
+    }
+
     function updateText(elementId, text){
         var el = document.getElementById(elementId);
         if (el.textContent !== text){
