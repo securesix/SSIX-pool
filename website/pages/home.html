@@ -345,7 +345,9 @@
             $('#networkLastBlockFound').timeago('update', new Date(lastStats.network.timestamp * 1000).toISOString());
 
             updateText('networkHashrate', getReadableHashRateString(lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + '/sec');
+            updateTitleText('networkHashrate', (lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + ' H/sec');
             updateText('networkDifficulty', getReadableDifficultyString(lastStats.network.difficulty));
+            updateTitleText('networkDifficulty', lastStats.network.difficulty);
             updateText('blockchainHeight', lastStats.network.height.toString());
             updateText('networkLastReward', getReadableCoins(lastStats.network.reward, 4));
             updateText('lastHash', lastStats.network.hash.substr(0, 13) + '...').setAttribute('href', getBlockchainUrl(lastStats.network.hash));
@@ -353,6 +355,7 @@
             updateText('currentEffort', (lastStats.pool.roundHashes / lastStats.network.difficulty * 100).toFixed(1) + '%');
 
             updateText('poolHashrate', getReadableHashRateString(lastStats.pool.hashrate) + '/sec');
+            updateTitleText('poolHashrate', lastStats.pool.hashrate + ' H/sec');
 
             if (lastStats.pool.lastBlockFound){
                 var d = new Date(parseInt(lastStats.pool.lastBlockFound)).toISOString();
@@ -362,6 +365,7 @@
                 $('#poolLastBlockFound').removeAttr('title').data('ts', '').update('Never');
 
             updateText('poolRoundHashes', getReadableDifficultyString(lastStats.pool.roundHashes));
+            updateTitleText('poolRoundHashes', lastStats.pool.roundHashes);
             updateText('poolMiners', lastStats.pool.miners.toString());
 
 
@@ -480,7 +484,7 @@
     function render(data){
         for (var i=0; i<data.length; ++i) {
             var r = data[i];
-            var app = '<tr><td>'+(i+1)+'</td>'+'<td>'+r.miner+'</td>'+'<td>'+getReadableHashRateString(r.hashrate)+'/s</td></tr>';
+            var app = '<tr><td>'+(i+1)+'</td>'+'<td>'+r.miner+'</td>'+'<td title="' + r.hashrate + ' H/s">'+getReadableHashRateString(r.hashrate)+'/s</td></tr>';
             $( "#top10_rows" ).append(app);
         }
     }
@@ -620,8 +624,10 @@
                     else
                         updateText('yourLastShare', 'Never');
 
-                    updateText('yourHashrateHolder', (data.stats.hashrate || '0 H') + '/sec');
+                    updateText('yourHashrateHolder', getReadableHashRateString(data.stats.hashrate || 0) + '/sec');
+                    updateTitleText('yourHashrateHolder', (data.stats.hashrate || 0) + ' H/sec');
                     updateText('yourHashes', getReadableHashesString(data.stats.hashes));
+                    updateTitleText('yourHashes', data.stats.hashes);
                     updateText('yourPaid', getReadableCoins(data.stats.paid));
                     updateText('yourPendingBalance', getReadableCoins(data.stats.balance));
 
