@@ -141,14 +141,15 @@
 
     function updateTitleText(elementId, text){
         var el = document.getElementById(elementId);
-        if (el.title !== text){
+        if (el && el.title !== text){
             el.title = text;
         }
+        return el;
     }
 
     function updateText(elementId, text){
         var el = document.getElementById(elementId);
-        if (el.textContent !== text){
+        if (el && el.textContent !== text){
             el.textContent = text;
         }
         return el;
@@ -416,6 +417,9 @@
                 </a></li>
 
                 <li style="display:none;"><a class="hot_link" data-page="blockchain_transaction.html" href="#blockchain_transaction">
+                </a></li>
+
+                <li style="display:none;"><a class="hot_link" data-page="mempool_transactions.html" href="#mempool_transactions">
                 </a></li>
 <!-- //-->
                 <li><a class="hot_link" data-page="network.html" href="#network">

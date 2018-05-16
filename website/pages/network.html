@@ -14,6 +14,7 @@
                 <th><i class="fa fa-bars"></i> Height</th>
                 <th><i class="fa fa-tachometer"></i> Hashrate</th>
                 <th><i class="fa fa-group"></i> Miners</th>
+                <th><i class="fa fa-gavel"></i> Workers</th>
                 <th><i class="fa fa-money"></i> Total Fee</th>
                 <th><i class="fa fa-clock-o"></i> Last Block Found</th>
             </tr>
@@ -38,6 +39,7 @@
                     updateText('height-'+host, data.network.height);
                     updateText('hashrate-'+host, data.pool.hashrate+' H/s');
                     updateText('miners-'+host, data.pool.miners);
+                    updateText('workers-'+host, (data.pool.workers || 0));
                     updateText('totalFee-'+host, calculateTotalFee(data)+'%');
                     updateText('lastBlockFound-'+host, new Date(parseInt(data.pool.lastBlockFound)).toLocaleString());
                 });
@@ -53,6 +55,7 @@
                 '<td id=height-'+host+'>'+data.network.height+'</td>' +
                 '<td id=hashrate-'+host+'>'+data.pool.hashrate+'&nbsp;H/s</td>' +
                 '<td id=miners-'+host+'>'+data.pool.miners+'</td>' +
+                '<td id=workers-'+host+'>'+(data.pool.workers || 0)+'</td>' +
                 '<td id=totalFee-'+host+'>'+calculateTotalFee(data)+'%</td>' +
                 '<td id=lastBlockFound-'+host+'>'+new Date(parseInt(data.pool.lastBlockFound)).toLocaleString()+'</td>' +
             '</tr>');

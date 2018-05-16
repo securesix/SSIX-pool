@@ -1,0 +1,110 @@
+<style>
+
+</style>
+
+<h3 class="transactions">Transactions in memory pool</h3>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th><i class="fa fa-paw"></i> Hash</th>
+            <th><i class="fa fa-paw"></i> Fee</th>
+            <th><i class="fa fa-money"></i> Total Amount</th>
+            <th><i class="fa fa-arrows"></i> Size</th>
+        </tr>
+        </thead>
+        <tbody id="transactions_rows">
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+    currentPage = {
+        destroy: function(){
+            if (xhrGetTransactions) xhrGetTransactions.abort();
+        },
+        init: function(){
+        },
+        update: function(){
+            updateTransactions();
+        }
+    };
+
+    var xhrGetTransactions;
+    function updateTransactions(){
+        if (xhrGetTransactions) xhrGetTransactions.abort();
+        xhrGetTransactions = $.ajax({
+            url: api_blockexplorer + '/json_rpc',
+            method: "POST",
+            data: JSON.stringify({
+                jsonrpc:"2.0",
+                id: "test",
+                method:"f_on_transactions_pool_json",
+                params: {}
+            }),
+            dataType: 'json',
+            cache: 'false',
+            success: function(data){
+                renderTransactions(data.result.transactions);
+            }
+        });
+    }
+
+    function renderTransactions(transactionsResults){
+        var i;
+        var $transactionsRows = $('#transactions_rows');
+
+        // Add new transactions backwards
+        for (i = transactionsResults.length - 1; i >= 0; i--){
+
+            var transaction = transactionsResults[i];
+            var transactionJson = JSON.stringify(transaction);
+            var existingRow = document.getElementById('transactionRow' + transaction.hash);
+
+            if (existingRow && existingRow.getAttribute('data-json') !== transactionJson){
+                $(existingRow).replaceWith(getTransactionRowElement(transaction, transactionJson));
+            }
+            else if (!existingRow){
+                var transactionElement = getTransactionRowElement(transaction, transactionJson);
+                console.log("Added transaction: " + transaction.hash);
+                $transactionsRows.prepend(transactionElement);
+            }
+        }
+
+        // Check for removed transactions
+        var rows = $transactionsRows.children().get();
+        for (var j = 0; j < rows.length; j++){
+            var hash = (rows[j]).getAttribute('data-hash');
+            var found = false;
+            for (i = 0; i < transactionsResults.length; i++){
+                if (hash == transactionsResults[i].hash){
+                    found = true;
+                    break;
+                }
+            }
+            if (!found){
+                console.log("Removed transaction: " + hash);
+                (rows[j]).remove();
+            }
+        }
+    }
+
+    function getTransactionRowElement(transaction, jsonString){
+        var row = document.createElement('tr');
+        row.setAttribute('data-json', jsonString);
+        row.setAttribute('data-hash', transaction.hash);
+        row.setAttribute('id', 'transactionRow' + transaction.hash);
+        row.setAttribute('title', transaction.hash);
+        var columns = 
+            '<td>' + transaction.hash + '</td>' +
+            '<td title="' + transaction.fee + '">' + getReadableCoins(transaction.fee, 2, true) + '</td>' +
+            '<td title="' + transaction.amount_out + '">' + getReadableCoins(transaction.amount_out, 2, true) + '</td>' +
+            '<td>' + transaction.size + '</td>';
+
+        row.innerHTML = columns;
+        return row;
+    }
+
+</script>
