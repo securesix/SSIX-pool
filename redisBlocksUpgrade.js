@@ -58,7 +58,7 @@ async.series([
     function(callback){
         redisClient.smembers(config.coin + ':blocksUnlocked', function(error, result){
             if (error){
-                log('error', logSystem, 'Error trying to get unlocke blocks from redis %j', [error]);
+                log('error', logSystem, 'Error trying to get unlocked blocks from redis %j', [error]);
                 callback();
                 return;
             }
