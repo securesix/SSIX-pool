@@ -16,6 +16,7 @@
                 <th><i class="fa fa-group"></i> Miners</th>
                 <th><i class="fa fa-gavel"></i> Workers</th>
                 <th><i class="fa fa-money"></i> Total Fee</th>
+                <th><i class="fa fa-th-large"></i> Total Blocks Found</th>
                 <th><i class="fa fa-clock-o"></i> Last Block Found</th>
             </tr>
         </thead>
@@ -41,6 +42,7 @@
                     updateText('miners-'+host, data.pool.miners);
                     updateText('workers-'+host, (data.pool.workers || 0));
                     updateText('totalFee-'+host, calculateTotalFee(data)+'%');
+                    updateText('totalBlocks-'+host, data.pool.totalBlocks);
                     updateText('lastBlockFound-'+host, new Date(parseInt(data.pool.lastBlockFound)).toLocaleString());
                 });
             });
@@ -53,10 +55,11 @@
             $('#network_rows').append('<tr>' +
                 '<td id=host-'+host+'><a target=blank href=http://'+host+'>'+host+'</a> ('+data.config.symbol+')</td>' +
                 '<td id=height-'+host+'>'+data.network.height+'</td>' +
-                '<td id=hashrate-'+host+'>'+data.pool.hashrate+'&nbsp;H/s</td>' +
+                '<td id=hashrate-'+host+'>'+data.pool.hashrate+'/s</td>' +
                 '<td id=miners-'+host+'>'+data.pool.miners+'</td>' +
                 '<td id=workers-'+host+'>'+(data.pool.workers || 0)+'</td>' +
                 '<td id=totalFee-'+host+'>'+calculateTotalFee(data)+'%</td>' +
+                '<td id=totalBlocks-'+host+'>'+data.pool.totalBlocks+'</td>' +
                 '<td id=lastBlockFound-'+host+'>'+new Date(parseInt(data.pool.lastBlockFound)).toLocaleString()+'</td>' +
             '</tr>');
         });
