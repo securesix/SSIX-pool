@@ -43,8 +43,10 @@
 		$('#totalMined').text(getReadableCoins(data.totalRevenue));
 		$('#profit').text(getReadableCoins(data.totalRevenue - data.totalOwed - data.totalPaid));
 		$('#averageLuck').html(formatLuck(data.totalDiff, data.totalShares));
-		$('#orphanPercent').text((data.blocksOrphaned / data.blocksUnlocked * 100).toFixed(2));
+		$('#orphanPercent').text((data.blocksOrphaned / data.blocksUnlocked * 100).toFixed(2) + '%');
 		$('#registeredAddresses').text(data.totalWorkers);
+		$('#blocksUnlocked').text(data.blocksUnlocked);
+    	$('#blocksOrphaned').text(data.blocksOrphaned);
 	}
 
 	$(function() {
@@ -53,31 +55,41 @@
 </script>
 <div class="row adminStats">
 	<div class="col-sm-3 color1">
-		<h4>Total Owed</h4>
+		<h4><span class="far fa-money-bill-alt"></span> Total Owed</h4>
 		<span class="statValue" id="totalOwed">...</span>
 	</div>
 	<div class="col-sm-3 color2">
-		<h4>Total Paid</h4>
+		<h4><span class="far fa-money-bill-alt"></span> Total Paid</h4>
 		<span class="statValue" id="totalPaid">...</span>
 	</div>
 	<div class="col-sm-3 color3">
-		<h4>Total Mined</h4>
+		<h4><span class="far fa-money-bill-alt"></span> Total Mined</h4>
 		<span class="statValue" id="totalMined">...</span>
 	</div>
 	<div class="col-sm-3 color4">
-		<h4>Profit (before tx fees)</h4>
+		<h4><span class="fas fa-dollar-sign"></span> Profit (before tx fees)</h4>
 		<span class="statValue" id="profit">...</span>
 	</div>
-	<div class="col-sm-4 color5">
-		<h4>Average Luck (shares/diff)</h4>
+	<div class="col-sm-3 color5">
+		<h4><span class="fa fa-cubes"></span> Blocks Unlocked</h4>
+		<span class="statValue lead" id="blocksUnlocked">...</span>
+	</div>
+	<div class="col-sm-3 color6">
+		<h4><span class="fas fa-dice"></span> Average Luck (shares/diff)</h4>
 		<span class="statValue lead" id="averageLuck">...</span>
 	</div>
-	<div class="col-sm-4 color6">
-		<h4>Orphan Percent</h4>
-		<span class="statValue lead" id="orphanPercent">...</span>
+	<div class="col-sm-3 color7">
+		<h4><span class="fas fa-percent"></span> Orphan Blocks</h4>
+		<span class="statValue lead" id="blocksOrphaned">...</span> <br><span class="statValue" style="text-align: right;">(<span id="orphanPercent">0%</span>)</span>
 	</div>
-	<div class="col-sm-4 color7">
-		<h4>Registered Addresses</h4>
+	<div class="col-sm-3 color8">
+		<h4><span class="fa fa-users"></span> Registered Addresses</h4>
 		<span class="statValue lead" id="registeredAddresses">...</span>
 	</div>
+</div>
+
+
+<div id="poolStats" class="row">
+
+        
 </div>
