@@ -1,0 +1,69 @@
+<style>
+
+</style>
+
+<div class="table-responsive">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th><i class="fa fa-area-chart"></i> Rank</th>
+                <th><i class="fa fa-user"></i> Worker Address</th>
+                <th><i class="fa fa-tachometer"></i> Worker Hashrate</th>
+            </tr>
+        </thead>
+        <tbody id="worker_rows">
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+    var xhrGetTOP;
+    currentPage = {
+        destroy: function(){
+            if (xhrGetTOP) xhrGetTOP.abort();
+        },
+        init: function(){
+        },
+        update: function(){
+            updateTopWorkers();
+        }
+    };
+
+    /* Top 100 workerrs */
+    function updateTopWorkers() {
+        if (xhrGetTOP) xhrGetTOP.abort();
+        xhrGetTOP = $.ajax({
+            url: api + '/get_top100workers',
+            data: {
+                time: $('#worker_rows').children().last().data('time')
+            },
+            dataType: 'json',
+            cache: 'false',
+            success: function(data){
+                render(data);
+            }
+        });
+    }
+
+    function render(data){
+        for (var i=0; i<data.length; ++i) {
+            var r = data[i];
+            var rows = document.getElementById('worker_rows');
+            var worker = "**" + r.worker.substring(89);
+            if (rows.children.length < i + 1) {
+                rows.innerHTML += '<tr data-hashrate="' + r.hashrate + '" data-worker="' + r.worker + '" id="' + r.worker +'"><td>'+(i+1)+'</td>'+'<td>'+worker+'</td>'+'<td title="' + (r.hashrate || 0) + ' H/s">'+getReadableHashRateString(r.hashrate || 0)+'/s</td></tr>';
+            }
+            else {
+                var workerRow = rows.children.item(i);
+                workerRow.setAttribute('data-hashrate', r.hashrate);
+                workerRow.setAttribute('data-worker', r.worker);
+                workerRow.setAttribute('id', r.worker);
+                workerRow.children.item(1).innerHTML = worker;
+                workerRow.children.item(2).setAttribute('title', r.hashrate + '/s');
+                workerRow.children.item(2).innerHTML = getReadableHashRateString(r.hashrate || 0)+'/s';
+            }
+        }
+    }
+
+</script>
