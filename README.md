@@ -502,6 +502,12 @@ You need the latest stable version of PinkstarcoinV2d from [Pinkstar Discord cha
 PinkstarcoinV2d.exe --enable_blockexplorer --rpc-bind-ip 0.0.0.0 --enable-cors *
 ```
 
+or
+
+```
+./PinkstarcoinV2d --enable_blockexplorer --rpc-bind-ip 0.0.0.0 --enable-cors "*"
+```
+
 * Change the following line in the pool's frontend config.json:
 
 ```
