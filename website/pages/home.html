@@ -553,7 +553,7 @@
             var hashRate = parseFloat($('#calcHashRate').val()) * rateUnit;
             var profit = (hashRate * 86400 / lastStats.network.difficulty) * lastStats.network.reward;
             if (profit) {
-                updateText('calcHashAmount', getReadableCoins(profit, 4, true));
+                updateText('calcHashAmount', getReadableCoins(profit, 2, true));
                 return;
             }
         }
@@ -725,7 +725,7 @@
         if(rawData) {
             for (var i = 0, xy; xy = rawData[i]; i++) {
                 graphData.names.push(new Date(xy[0]*1000).toUTCString());
-                graphData.values.push(fixValueToCoins ? getReadableCoins(xy[1], 4, true) : xy[1]);
+                graphData.values.push(fixValueToCoins ? getReadableCoins(xy[1], 2, true) : xy[1]);
             }
         }        
        
