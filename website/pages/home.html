@@ -353,7 +353,7 @@
             updateText('networkDifficulty', getReadableDifficultyString(lastStats.network.difficulty));
             updateTitleText('networkDifficulty', lastStats.network.difficulty);
             updateText('blockchainHeight', lastStats.network.height.toString());
-            updateText('networkLastReward', getReadableCoins(lastStats.network.reward, 4));
+            updateText('networkLastReward', getReadableCoins(lastStats.network.reward, 2));
             updateText('lastHash', lastStats.network.hash.substr(0, 13) + '...').setAttribute('href', getBlockchainUrl(lastStats.network.hash));
 
             updateText('currentEffort', (lastStats.pool.roundHashes / lastStats.network.difficulty * 100).toFixed(1) + '%');
