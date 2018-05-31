@@ -10,8 +10,6 @@ var email = "support@poolhost.com";
 
 var cryptonatorWidget = ["{symbol}-BTC", "{symbol}-USD", "{symbol}-EUR"];
 
-var easyminerDownload = "https://github.com/zone117x/cryptonote-easy-miner/releases/";
-
 var blockchainExplorer = "http://explorer.pinkstarcoin.com/?hash={id}#blockchain_block";
 
 var transactionExplorer = "http://explorer.pinkstarcoin.com/?hash={id}#blockchain_transaction";
