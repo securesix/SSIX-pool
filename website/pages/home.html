@@ -96,7 +96,8 @@
         <div><i class="fa fa-money"></i> Pool Fee: <span id="poolFee"></span></div>
         <div><i class="fa fa-clock-o"></i> Round Time: <span id="elapsedroundtime" target="_blank"></span></div>
         <div><i class="fa fa-users"></i> Round hashes: <span id="poolRoundHashes"></span></div>
-	    <div><i class="fa fa-star-half-o"></i>Current Block Effort: <span id="currentEffort"></span></div>
+        <div><i class="fa fa-star-half-o"></i>Current Block Effort: <span id="currentEffort"></span></div>
+        <div><i class="fa fa-clock-o"></i>Payment Interval: <span id="paymentsInterval"></span></div>
         <div>
           <i class="fa fa-bar-chart-o"></i> Pool load: <span id="poolLoad"></span>
           <span data-toggle="tooltip" title="The average system load of the last 15 minutes. The closer this gets to 1, the more overloaded the pool is." class="fa fa-question-circle">
@@ -372,6 +373,7 @@
             updateTitleText('poolRoundHashes', lastStats.pool.roundHashes);
             updateText('poolMiners', lastStats.pool.miners.toString());
             updateText('poolWorkers', (lastStats.pool.workers || 0));
+            updateText('paymentsInterval', getReadableTime(lastStats.config.paymentsInterval));
 
 
             var totalFee = lastStats.config.fee;
