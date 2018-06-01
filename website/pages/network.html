@@ -43,7 +43,7 @@
                     updateText('workers-'+host, (data.pool.workers || 0));
                     updateText('totalFee-'+host, calculateTotalFee(data)+'%');
                     updateText('totalBlocks-'+host, data.pool.totalBlocks);
-                    updateText('lastBlockFound-'+host, new Date(parseInt(data.pool.lastBlockFound)).toLocaleString());
+                    updateText('lastBlockFound-'+host, (data.pool.lastBlockFound ? new Date(parseInt(data.pool.lastBlockFound)).toLocaleString() : 'Never'));
                 });
             });
         }
@@ -60,7 +60,7 @@
                 '<td id=workers-'+host+'>'+(data.pool.workers || 0)+'</td>' +
                 '<td id=totalFee-'+host+'>'+calculateTotalFee(data)+'%</td>' +
                 '<td id=totalBlocks-'+host+'>'+data.pool.totalBlocks+'</td>' +
-                '<td id=lastBlockFound-'+host+'>'+new Date(parseInt(data.pool.lastBlockFound)).toLocaleString()+'</td>' +
+                '<td id=lastBlockFound-'+host+'>'+ (data.pool.lastBlockFound ? new Date(parseInt(data.pool.lastBlockFound)).toLocaleString() : 'Never') +'</td>' +
             '</tr>');
         });
     });
