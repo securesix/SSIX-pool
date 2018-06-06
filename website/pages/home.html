@@ -115,6 +115,7 @@
         <div><i class="fa fa-money"></i> Last Reward: <span id="networkLastReward"></span></div>
         <div><i class="fa fa-paw"></i> Last Hash: <a id="lastHash" target="_blank"></a></div>
         <div><i class="fa fa-money"></i> Coins Mined: <span id="totalCoins"></span></div>
+        <div><i class="fa fa-percent"></i> Emission: <span id="emissionPercent"></span></div>
         <div><i class="fa fa-bars"></i> Total Transactions: <span id="totalTransactions"></span></div>
     </div>
 
@@ -373,7 +374,7 @@
             updateTitleText('poolRoundHashes', lastStats.pool.roundHashes);
             updateText('poolMiners', lastStats.pool.miners.toString());
             updateText('poolWorkers', (lastStats.pool.workers || 0));
-            updateText('paymentsInterval', getReadableTime(lastStats.config.paymentsInterval));
+            updateText('paymentsInterval', (lastStats.config.paymentsInterval ? getReadableTime(lastStats.config.paymentsInterval) : 'Unknown'));
 
 
             var totalFee = lastStats.config.fee;
@@ -429,6 +430,9 @@
             if (lastStats.pool.lastBlockFound){
                 var datacur = new Date() - new Date(parseInt(lastStats.pool.lastBlockFound));
                 $("#elapsedroundtime").html(new Date(datacur).toISOString().split("T")[1].split(".")[0]);
+            }
+            else {
+                $("#elapsedroundtime").html('Unknown');
             }
 
         }
@@ -818,6 +822,7 @@
             success: function(data){
                 updateText('totalCoins', getReadableCoins(data.result.block.alreadyGeneratedCoins));
                 updateText('totalTransactions', data.result.block.alreadyGeneratedTransactions);
+                updateText('emissionPercent', (data.result.block.alreadyGeneratedCoins / 120000000).toFixed(2) + '%');
             }
         });
     }
