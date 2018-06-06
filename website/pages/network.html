@@ -22,6 +22,18 @@
         </thead>
         <tbody id="network_rows">
         </tbody>
+        <tfoot>
+            <tr>
+                <th>Total</th>
+                <td id="height-total"></td>
+                <td id="hashrate-total"></td>
+                <td id="miners-total"></td>
+                <td id="workers-total"></td>
+                <td id="totalFee-total">N/A</td>
+                <td id="totalBlocks-total"></td>
+                <td id="lastBlockFound-total"></td>
+            </tr>
+        </tfoot>
     </table>
 </div>
 
@@ -38,12 +50,20 @@
             NETWORK_STAT_MAP.forEach((url, host, map) => {
                 $.getJSON(url + '/stats', (data, textStatus, jqXHR) => {
                     updateText('height-'+host, data.network.height);
+                    updateTitleText('height-'+host, data.network.height);
                     updateText('hashrate-'+host, data.pool.hashrate+' H/s');
+                    updateTitleText('hashrate-'+host, data.pool.hashrate);
                     updateText('miners-'+host, data.pool.miners);
+                    updateTitleText('miners-'+host, data.pool.miners);
                     updateText('workers-'+host, (data.pool.workers || 0));
+                    updateTitleText('workers-'+host, (data.pool.workers || 0));
                     updateText('totalFee-'+host, calculateTotalFee(data)+'%');
+                    updateTitleText('totalFee-'+host, calculateTotalFee(data));
                     updateText('totalBlocks-'+host, data.pool.totalBlocks);
+                    updateTitleText('totalBlocks-'+host, data.pool.totalBlocks);
                     updateText('lastBlockFound-'+host, (data.pool.lastBlockFound ? new Date(parseInt(data.pool.lastBlockFound)).toLocaleString() : 'Never'));
+                    updateTitleText('lastBlockFound-'+host, (data.pool.lastBlockFound || 0));
+                    updateTotals();
                 });
             });
         }
@@ -54,16 +74,49 @@
         $.getJSON(url + '/stats', (data, textStatus, jqXHR) => {
             $('#network_rows').append('<tr>' +
                 '<td id=host-'+host+'><a target=blank href=http://'+host+'>'+host+'</a> ('+data.config.symbol+')</td>' +
-                '<td id=height-'+host+'>'+data.network.height+'</td>' +
-                '<td id=hashrate-'+host+'>'+data.pool.hashrate+'/s</td>' +
-                '<td id=miners-'+host+'>'+data.pool.miners+'</td>' +
-                '<td id=workers-'+host+'>'+(data.pool.workers || 0)+'</td>' +
-                '<td id=totalFee-'+host+'>'+calculateTotalFee(data)+'%</td>' +
-                '<td id=totalBlocks-'+host+'>'+data.pool.totalBlocks+'</td>' +
-                '<td id=lastBlockFound-'+host+'>'+ (data.pool.lastBlockFound ? new Date(parseInt(data.pool.lastBlockFound)).toLocaleString() : 'Never') +'</td>' +
+                '<td id=height-'+host+' title='+data.network.height+'>'+data.network.height+'</td>' +
+                '<td id=hashrate-'+host+' title='+data.pool.hashrate+'>'+data.pool.hashrate+'/s</td>' +
+                '<td id=miners-'+host+' title='+data.pool.miners+'>'+data.pool.miners+'</td>' +
+                '<td id=workers-'+host+' title='+(data.pool.workers || 0)+'>'+(data.pool.workers || 0)+'</td>' +
+                '<td id=totalFee-'+host+' title='+calculateTotalFee(data)+'>'+calculateTotalFee(data)+'%</td>' +
+                '<td id=totalBlocks-'+host+' title='+data.pool.totalBlocks+'>'+data.pool.totalBlocks+'</td>' +
+                '<td id=lastBlockFound-'+host+' title='+(data.pool.lastBlockFound || 0)+'>'+ (data.pool.lastBlockFound ? new Date(parseInt(data.pool.lastBlockFound)).toLocaleString() : 'Never') +'</td>' +
             '</tr>');
+            updateTotals();
         });
     });
+
+    function updateTotals() {
+        var highestHeight = 0;
+        var hashrate = 0;
+        var miners = 0;
+        var workers = 0;
+        var totalBlocks = 0;
+        var lastBlockFound = 0;
+        var pools = document.getElementById('network_rows').getElementsByTagName('tr');
+        for (var i = 0; i < pools.length; i++) {
+            var pool = pools[i];
+            var blockFound = 0;
+            var height =   parseInt(pool.childNodes[1].title);
+            if (height > highestHeight) {
+                highestHeight = height;
+            }
+            hashrate +=    parseInt(pool.childNodes[2].title);
+            miners +=      parseInt(pool.childNodes[3].title);
+            workers +=     parseInt(pool.childNodes[4].title);
+            totalBlocks += parseInt(pool.childNodes[6].title);
+            blockFound =   parseInt(pool.childNodes[7].title);
+            if (blockFound > lastBlockFound) {
+                lastBlockFound = blockFound;
+            }
+        }
+        updateText('height-total', highestHeight);
+        updateText('hashrate-total', hashrate + ' H/s');
+        updateText('miners-total', miners);
+        updateText('workers-total', workers);
+        updateText('totalBlocks-total', totalBlocks);
+        updateText('lastBlockFound-total', (lastBlockFound ? new Date(lastBlockFound).toLocaleString() : 'Never'));
+    }
 
     function calculateTotalFee(config) {
         let totalFee = config.config.fee;
