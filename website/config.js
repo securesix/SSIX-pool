@@ -19,7 +19,7 @@ var themeCss = "themes/default-theme.css";
 var networkStat = {
     "pstar": [
         ["pool.pinkstarcoin.com", "http://pool.pinkstarcoin.com:7111"],
-        ["npool.pw/pstar", "http://ca.npool.pw:8114"],
-        ["pstar.5wa.io/en", "http://pstar.5wa.io:8117"]
+        ["poolmining.us", "http://poolmining.us:7112"],
+        ["npool.pw/pstar", "https://api.npool.pw/pstar"]
     ]
 };
