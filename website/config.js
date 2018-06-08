@@ -20,6 +20,7 @@ var networkStat = {
     "pstar": [
         ["pool.pinkstarcoin.com", "http://pool.pinkstarcoin.com:7111"],
         ["poolmining.us", "http://poolmining.us:7112"],
-        ["npool.pw/pstar", "https://api.npool.pw/pstar"]
+        ["npool.pw/pstar", "https://api.npool.pw/pstar"],
+        ["matamu.me/pinkstarcoinV2","https://pstar.matamu.me:7119"]
     ]
 };
