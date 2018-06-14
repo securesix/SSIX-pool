@@ -30,7 +30,7 @@
         }
     };
 
-    /* Top 100 workerrs */
+    /* Top 100 workers */
     function updateTopWorkers() {
         if (xhrGetTOP) xhrGetTOP.abort();
         xhrGetTOP = $.ajax({
@@ -47,9 +47,9 @@
     }
 
     function render(data){
+        var rows = document.getElementById('worker_rows');
         for (var i=0; i<data.length; ++i) {
             var r = data[i];
-            var rows = document.getElementById('worker_rows');
             var worker = "**" + r.worker.substring(89);
             if (rows.children.length < i + 1) {
                 rows.innerHTML += '<tr data-hashrate="' + r.hashrate + '" data-worker="' + r.worker + '" id="' + r.worker +'"><td>'+(i+1)+'</td>'+'<td>'+worker+'</td>'+'<td title="' + (r.hashrate || 0) + ' H/s">'+getReadableHashRateString(r.hashrate || 0)+'/s</td></tr>';
@@ -63,6 +63,9 @@
                 workerRow.children.item(2).setAttribute('title', r.hashrate + '/s');
                 workerRow.children.item(2).innerHTML = getReadableHashRateString(r.hashrate || 0)+'/s';
             }
+        }
+        while (rows.childElementCount > data.length) {
+            rows.lastElementChild.remove();
         }
     }
 
