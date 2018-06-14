@@ -496,8 +496,10 @@
     function render(data){
         for (var i=0; i<data.length; ++i) {
             var r = data[i];
-            var app = '<tr><td>'+(i+1)+'</td>'+'<td>'+r.miner+'</td>'+'<td title="' + r.hashrate + ' H/s">'+getReadableHashRateString(r.hashrate)+'/s</td></tr>';
-            $( "#top10_rows" ).append(app);
+            if (r.hashrate > 0) {
+                 var app = '<tr><td>'+(i+1)+'</td>'+'<td>'+r.miner+'</td>'+'<td title="' + r.hashrate + ' H/s">'+getReadableHashRateString(r.hashrate)+'/s</td></tr>';
+                 $( "#top10_rows" ).append(app);
+            }
         }
     }
 
