@@ -22,6 +22,9 @@
     "poolAddress": "P6aAjbNThymhBeWCpe3d8xQZ9EPjayHpGA7a2ZZwQupFLjdBQ7EfEKCY1i17rTo8vvRepkHWnGyH4c5pqprzTrgV2htsiQumK",
     "blockRefreshInterval": 1000,
     "minerTimeout": 3600,
+    "sslCert": "./cert.pem",
+    "sslKey": "./privkey.pem",
+    "sslCA": "./chain.pem",
     "ports": [
       {
         "port": 3333,
@@ -47,6 +50,12 @@
         "port": 9999,
         "difficulty": 1000000,
         "desc": "Extreme hardware"
+      },
+      {
+        "port": 11111,
+        "difficulty": 20000,
+        "desc": "SSL connection",
+        "ssl": true
       }
     ],
     "varDiff": {
@@ -110,7 +119,12 @@
         "port": 8117,
         "blocks": 30,
         "payments": 30,
-        "password": "your_password"
+        "password": "your_password",
+        "ssl": false,
+        "sslPort": 8119,
+        "sslCert": "./cert.pem",
+        "sslKey": "./privkey.pem",
+        "sslCA": "./chain.pem",
     },
 
     "daemon": {

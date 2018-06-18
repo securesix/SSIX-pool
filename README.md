@@ -530,7 +530,7 @@ Credits
 Donations
 ===
 
-If you want to support development of pinkstar-pool, you can send donations using following addresses or set "devDonation" to non-zero in [config.json](//github.com/mtl1979/pinkstar-pool/blob/master/config.json#L101):
+If you want to support development of pinkstar-pool, you can send donations using following addresses or set "devDonation" to non-zero in [config.json](//github.com/mtl1979/pinkstar-pool/blob/master/config.json#L110):
 * BCH: qryfpsnz3v607kupyrvnjgqang7urfj0fsetc3a9mf
 * BTC: 1D1YBHmFkd4J7bEG6PYfZBLoXtp98hKsfw
 * ETH: 0xc1d2DDB00c5B110855FAD9E2C7b8157D358b050e
