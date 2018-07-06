@@ -604,12 +604,11 @@
         if (xhrAddressPoll) xhrAddressPoll.abort();
         if (addressTimeout) clearTimeout(addressTimeout);
 
-        function fetchAddressStats(longpoll){
+        function fetchAddressStats(){
             xhrAddressPoll = $.ajax({
                 url: api + '/stats_address',
                 data: {
                     address: address,
-                    longpoll: longpoll
                 },
                 dataType: 'json',
                 cache: 'false',
@@ -621,11 +620,6 @@
                     if (!data.stats){
                         $('.yourStats, .userChart').hide();
                         $('#addressError').text(data.error).show();
-
-                        if (addressTimeout) clearTimeout(addressTimeout);
-                        addressTimeout = setTimeout(function(){
-                            fetchAddressStats(false);
-                        }, 2000);
 
                         return;
                     }
@@ -649,33 +643,20 @@
 
                     $('.yourStats').show();
 
-                    xhrRenderUserCharts = $.ajax({
-                        url: api + '/stats_address?address=' + address + '&longpoll=false',            
-                        cache: false,
-                        dataType: 'json',            
-                        success: function(data) {
-                            createUserCharts(data);                                
-                        }
-                    });
+                    createUserCharts(data);
 
                     docCookies.setItem('mining_address', address, Infinity);
 
-                    fetchAddressStats(true);
+                    fetchAddressStats();
                     
                 },
                 error: function(e){
                     if (e.statusText === 'abort') return;
                     $('#addressError').text('Connection error').show();
-
-                    if (addressTimeout) clearTimeout(addressTimeout);
-                    addressTimeout = setTimeout(function(){
-                        fetchAddressStats(false);
-                    }, 2000);
-                    
                 }
             });
         }
-        fetchAddressStats(false);
+        fetchAddressStats();
     });
     
     var urlWalletAddress = location.search.split('wallet=')[1] || 0;
