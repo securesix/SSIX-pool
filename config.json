@@ -87,7 +87,8 @@
       "enabled": false,
       "weight": 120,
       "lastBlockCheckRate": 1
-    }
+    },
+    "walletBlacklist": []
   },
 
     "payments": {
