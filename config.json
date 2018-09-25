@@ -1,6 +1,6 @@
 {
-    "coin": "pinkstarcoin",
-    "symbol": "PSTAR",
+    "coin": "bittorium",
+    "symbol": "BTOR",
     "coinUnits": 100,
     "coinDifficultyTarget": 240,
 
@@ -19,7 +19,7 @@
   "poolServer": {
     "enabled": true,
     "clusterForks": "auto",
-    "poolAddress": "P6aAjbNThymhBeWCpe3d8xQZ9EPjayHpGA7a2ZZwQupFLjdBQ7EfEKCY1i17rTo8vvRepkHWnGyH4c5pqprzTrgV2htsiQumK",
+    "poolAddress": "bTXPouErxAPNQ9Ajwtn7NE589BiU7vb8y9rRow3vZYerBVA9AL2RGb498XgkXwYpUMLagvWSYfHEmW3X2LqCxd7214jA6JuyA",
     "blockRefreshInterval": 1000,
     "minerTimeout": 3600,
     "sslCert": "./cert.pem",
@@ -125,12 +125,12 @@
         "sslPort": 8119,
         "sslCert": "./cert.pem",
         "sslKey": "./privkey.pem",
-        "sslCA": "./chain.pem",
+        "sslCA": "./chain.pem"
     },
 
     "daemon": {
         "host": "127.0.0.1",
-        "port": 39984
+        "port": 34916
     },
 
     "wallet": {

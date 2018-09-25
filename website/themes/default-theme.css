@@ -4,6 +4,9 @@ a {
 a:hover {
   color: #025b42;
 }
+.bg-primary a {
+  color: #ffffff;
+}
 body {
   line-height: 1.428571429;
   color: #6f6e6e;  

@@ -93,6 +93,7 @@
         <div><i class="fa fa-clock-o"></i> Block Found: <span id="poolLastBlockFound"></span></div>
         <div id="donations"><i class="fa fa-gift"></i> Donations: <span id="poolDonations"></span></div>
         <div><i class="fa fa-history"></i> Average Block Time: <span id="blockSolvedTime"></span></div>
+        <div><i class="fa fa-th-large"></i> Total Blocks Mined: <span id="blocksTotal"></span></div>
         <div><i class="fa fa-money"></i> Pool Fee: <span id="poolFee"></span></div>
         <div><i class="fa fa-clock-o"></i> Round Time: <span id="elapsedroundtime" target="_blank"></span></div>
         <div><i class="fa fa-users"></i> Round hashes: <span id="poolRoundHashes"></span></div>
@@ -417,6 +418,7 @@
             updateText('blockSolvedTime', getReadableTime(lastStats.network.difficulty / lastStats.pool.hashrate));
             updateText('calcHashSymbol', lastStats.config.symbol);
             updateTotalCoins();
+            updateText('blocksTotal', lastStats.pool.totalBlocks.toString());
 
             calcEstimateProfit();
 
@@ -460,16 +462,6 @@
         return formatAmounts(amount,  units[units.length - 1][1]);
     }
 
-
-    function getReadableHashRateString(hashrate){
-        var i = 0;
-        var byteUnits = [' H', ' KH', ' MH', ' GH', ' TH', ' PH' ];
-        while (hashrate > 1024){
-            hashrate = hashrate / 1024;
-            i++;
-        }
-        return hashrate.toFixed(2) + byteUnits[i];
-    }
 
     function getReadableHashShare(hash){
         var i = 0;
@@ -557,7 +549,7 @@
 
     function calcEstimateProfit(){
         try {
-            var rateUnit = Math.pow(1024,parseInt($('#calcHashUnit').data('mul')));
+            var rateUnit = Math.pow(1000,parseInt($('#calcHashUnit').data('mul')));
             var hashRate = parseFloat($('#calcHashRate').val()) * rateUnit;
             var profit = (hashRate * 86400 / lastStats.network.difficulty) * lastStats.network.reward;
             if (profit) {
@@ -647,7 +639,8 @@
 
                     docCookies.setItem('mining_address', address, Infinity);
 
-                    fetchAddressStats();
+                    if (addressTimeout) clearTimeout(addressTimeout);
+                    addressTimeout = setTimeout(fetchAddressStats, 10000);
                     
                 },
                 error: function(e){
@@ -805,7 +798,7 @@
             success: function(data){
                 updateText('totalCoins', getReadableCoins(data.result.block.alreadyGeneratedCoins));
                 updateText('totalTransactions', data.result.block.alreadyGeneratedTransactions);
-                updateText('emissionPercent', (data.result.block.alreadyGeneratedCoins / 120000000).toFixed(2) + '%');
+                updateText('emissionPercent', (data.result.block.alreadyGeneratedCoins / 180000000).toFixed(2) + '%');
             }
         });
     }

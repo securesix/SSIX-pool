@@ -1,4 +1,4 @@
-﻿pinkstar-pool
+﻿bittorium-pool
 ====================
 Formerly known as cryptonote-forknote-pool, forked from Forknote Project.
 
@@ -88,7 +88,7 @@ Usage
 ===
 
 #### Requirements
-* PinkstarcoinV2 daemon
+* Bittorium daemon
 * walletd
 * [Node.js](http://nodejs.org/) v0.10+ ([follow these installation instructions](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager))
 * [Redis](http://redis.io/) key-value store v2.6+ ([follow these instructions](http://redis.io/topics/quickstart))
@@ -118,7 +118,7 @@ sudo ln -s /usr/bin/nodejs /usr/bin/node
 Clone the repository and run `npm update` for all the dependencies to be installed:
 
 ```bash
-git clone https://github.com/mtl1979/pinkstar-pool pool
+git clone https://github.com/mtl1979/bittorium-pool pool
 cd pool
 npm config set strict-ssl false
 npm update
@@ -130,10 +130,10 @@ npm update
 Explanation for each field:
 ```javascript
 /* Used for storage in redis so multiple coins can share the same redis instance. */
-"coin": "pinkstarcoin",
+"coin": "bittorium",
 
 /* Used for front-end display */
-"symbol": "PSTAR",
+"symbol": "BTOR",
 
 /* Minimum units in a single coin, see COIN constant in DAEMON_CODE/src/cryptonote_config.h */
 "coinUnits": 100,
@@ -175,7 +175,7 @@ Explanation for each field:
     "clusterForks": "auto",
 
     /* Address where block rewards go, and miner payments come from. */
-    "poolAddress": "P6aAjbNThymhBeWCpe3d8xQZ9EPjayHpGA7a2ZZwQupFLjdBQ7EfEKCY1i17rTo8vvRepkHWnGyH4c5pqprzTrgV2htsiQumK"
+    "poolAddress": "bTXPouErxAPNQ9Ajwtn7NE589BiU7vb8y9rRow3vZYerBVA9AL2RGb498XgkXwYpUMLagvWSYfHEmW3X2LqCxd7214jA6JuyA"
 
     /* Poll RPC daemons for new blocks every this many milliseconds. */
     "blockRefreshInterval": 1000,
@@ -289,7 +289,7 @@ Explanation for each field:
 /* Coin daemon connection details. */
 "daemon": {
     "host": "127.0.0.1",
-    "port": 39984
+    "port": 34916
 },
 
 /* Wallet daemon connection details. */
@@ -468,8 +468,8 @@ the Node.js modules, and any config files that may have been changed.
 You can create a testnet with the following steps:
 
 * You now need to run two instance of the daemon and connect them to each other (without a connection to another instance the daemon will not accept RPC requests)
-  * Run first instance with `./PinkstarcoinV2d --testnet --p2p-bind-port 28080 --allow-local-ip`
-  * Run second instance with `./PinkstarcoinV2d --testnet --p2p-bind-port 5011 --rpc-bind-port 5010 --add-peer 0.0.0.0:28080 --allow-local-ip`
+  * Run first instance with `./Bittoriumd --testnet --p2p-bind-port 28080 --allow-local-ip`
+  * Run second instance with `./Bittoriumd --testnet --p2p-bind-port 5011 --rpc-bind-port 5010 --add-peer 0.0.0.0:28080 --allow-local-ip`
 * You should now have a local testnet setup. The ports can be changes as long as the second instance is pointed to the first instance, obviously
 
 ### JSON-RPC Commands from CLI
@@ -495,30 +495,30 @@ curl 127.0.0.1:39984/json_rpc -d '{"method":"getblockheaderbyheight","params":{"
 
 ### Configuring Blockchain Explorer
 
-You need the latest stable version of PinkstarcoinV2d from [Pinkstar Discord channel](https://discord.gg/CaVQQNT).
+You need the latest stable version of Bittoriumd from [Bittorium GitHub](https://github.com/bittorium/Bittorium/releases/latest).
 * Start the daemon with:
 
 ```
-PinkstarcoinV2d.exe --enable_blockexplorer --rpc-bind-ip 0.0.0.0 --enable-cors *
+Bittoriumd.exe --enable_blockexplorer --rpc-bind-ip 0.0.0.0 --enable-cors *
 ```
 
 or
 
 ```
-./PinkstarcoinV2d --enable_blockexplorer --rpc-bind-ip 0.0.0.0 --enable-cors "*"
+./Bittoriumd --enable_blockexplorer --rpc-bind-ip 0.0.0.0 --enable-cors "*"
 ```
 
 * Change the following line in the pool's frontend config.json:
 
 ```
-var api_blockexplorer = "http://daemonhost.com:39984";
+var api_blockexplorer = "http://daemonhost.com:34916";
 ```
 
 
 Credits
 ===
 
-* [mtl1979](//github.com/mtl1979) - Modifications for PinkstarcoinV2
+* [mtl1979](//github.com/mtl1979) - Modifications for PinkstarcoinV2 and Bittorium
 * [leisegang](//github.com/leisegang) - Modifications for PinkstarcoinV2, Top 10 miners
 * [LucasJones](//github.com/LucasJones) - Co-dev on this project; did tons of debugging for binary structures and fixing them. Pool couldn't have been made without him.
 * [surfer43](//github.com/iamasupernova) - Did lots of testing during development to help figure out bugs and get them fixed
@@ -530,7 +530,7 @@ Credits
 Donations
 ===
 
-If you want to support development of pinkstar-pool, you can send donations using following addresses or set "devDonation" to non-zero in [config.json](//github.com/mtl1979/pinkstar-pool/blob/master/config.json#L110):
+If you want to support development of bittorium-pool, you can send donations using following addresses or set "devDonation" to non-zero in [config.json](//github.com/mtl1979/bittorium-pool/blob/master/config.json#L110):
 * BCH: qryfpsnz3v607kupyrvnjgqang7urfj0fsetc3a9mf
 * BTC: 1D1YBHmFkd4J7bEG6PYfZBLoXtp98hKsfw
 * ETH: 0xc1d2DDB00c5B110855FAD9E2C7b8157D358b050e
@@ -538,6 +538,7 @@ If you want to support development of pinkstar-pool, you can send donations usin
 * ITNS: iz4zpuXFmwVKsKYmHZt2TzHd7BaSuUiep9VxCEBvCgPy3ijAkVb2ZMhVp7shCyrYvmGmcWoByUBJW3NqyAGMD1KX2oTNvZKFT
 * LTC: MAaio5kmZbzcJ8VGfSwtKQKdho8KK7GsTo
 * PSTAR: P6ZDs32zWmAgoXE6Caom2L7nNaKRtNjqvFsv6NQp8XzUZsB47V8XRPCG7dzLf59KPMXhyjLpPbSqyWaYpaDNwV121EFsG4Btr
+* BTOR: bTXPouErxAPNQ9Ajwtn7NE589BiU7vb8y9rRow3vZYerBVA9AL2RGb498XgkXwYpUMLagvWSYfHEmW3X2LqCxd7214jA6JuyA
 
 License
 -------
