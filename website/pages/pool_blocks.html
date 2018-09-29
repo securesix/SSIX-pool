@@ -22,7 +22,7 @@
         color: darkred;
     }
 </style>
-
+<h3>Pool Blocks</h3>
 <div class="blocksStatHolder">
     <span class="bg-primary">Total Blocks Mined: <span id="blocksTotal"></span></span>
     <span class="bg-info">Maturity Depth Requirement: <span id="blocksMaturityCount"></span></span>
@@ -99,17 +99,26 @@
         };
 
         var toGo = lastStats.config.depth - (lastStats.network.height - block.height);
-        block.maturity = toGo < 1 ? '' : (toGo + ' to go');
+        if(toGo > 1){
+            block.maturity = (lastStats.config.depth - toGo) + ' / ' + lastStats.config.depth;
+        } else if(toGo == 1){
+            block.maturity = '<i class="fa fa-unlock" aria-hidden="true"></i>';
+        } else if(toGo <= 0){
+            block.maturity = '<i class="fa fa-check" aria-hidden="true"></i>';
+        }
 
         switch (block.orphaned){
             case '0':
                 block.status = 'unlocked';
+				block.maturity = '<i class="fa fa-check" aria-hidden="true"></i>'
                 break;
             case '1':
                 block.status = 'orphaned';
+				block.maturity = '<i class="fa fa-ban" aria-hidden="true"></i>';
                 break;
             default:
                 block.status = 'pending';
+			//	block.maturity = '<i class="fa fa-unlock" aria-hidden="true"></i>'
                 break;
         }
 
@@ -138,11 +147,11 @@
                     var accurateShares = shares;
                 }
                 if (difficulty > accurateShares){
-                    var percent = 100 - Math.round(accurateShares / difficulty * 100);
+                    var percent = Math.round(accurateShares / difficulty * 100);
                     return '<span class="luckGood">' + percent + '%</span>';
                 }
                 else{
-                    var percent = (100 - Math.round(difficulty / accurateShares * 100)) * -1;
+                    var percent = Math.round(accurateShares / difficulty * 100);
                     return '<span class="luckBad">' + percent + '%</span>';
                 }
 	    }
@@ -152,7 +161,7 @@
         }
 
         var blockStatusClasses = {
-            'pending': '',
+            'pending': 'light',
             'unlocked': 'success',
             'orphaned': 'danger'
         };
@@ -166,7 +175,7 @@
 
         var columns =
             '<td>' + block.height + '</td>' +
-            '<td>' + block.maturity + '</td>' +
+            '<td class="maturity">' + block.maturity + '</td>' +
             '<td>' + block.difficulty + '</td>' +
             '<td>' + formatBlockLink(block.hash) + '</td>' +
             '<td>' + formatDate(block.time) + '</td>' +
