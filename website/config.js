@@ -23,6 +23,7 @@ var networkStat = {
         ["btor.simpool.xyz", "https://btor.simpool.xyz:4119"],
         ["youpool.io/BTOR", "http://118.178.122.224:8119"],
         ["miningpool.studio","https://miningpool.studio:8119"],
-        ["pool.bittorium.org","https://pool.bittorium.org:8119"]
+        ["pool.bittorium.org","https://pool.bittorium.org:8119"],
+        ["btor.thepiratemine.nl", "https://btor.thepiratemine.nl:2896"]
     ]
 };
