@@ -43,7 +43,7 @@
 		$('#totalMined').text(getReadableCoins(data.totalRevenue));
 		$('#profit').text(getReadableCoins(data.totalRevenue - data.totalOwed - data.totalPaid));
 		$('#averageLuck').html(formatLuck(data.totalDiff, data.totalShares));
-		$('#orphanPercent').text((data.blocksOrphaned / data.blocksUnlocked * 100).toFixed(2) + '%');
+		$('#orphanPercent').text((data.blocksUnlocked ? data.blocksOrphaned / data.blocksUnlocked * 100 : 0).toFixed(2) + '%');
 		$('#registeredAddresses').text(data.totalWorkers);
 		$('#blocksUnlocked').text(data.blocksUnlocked);
     	$('#blocksOrphaned').text(data.blocksOrphaned);
