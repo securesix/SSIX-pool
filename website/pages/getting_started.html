@@ -48,7 +48,7 @@
 <h3>Connection Details</h3>
 <div class="stats">
     <div><i class="fa fa-cloud"></i> Mining Pool Address: <span id="miningPoolHost"></span></div>
-    <div><i class="fa fa-cloud"></i> Mining Pool IP: <span id="miningPoolHost2"></span></div>
+    <div><i class="fa fa-cloud"></i> Mining Pool IP: <span id="miningPoolIP"></span></div>
 </div>
 
 <h3 id="red">Please do not mine directly to exchange wallet, your coins will be lost!</h3>
@@ -192,6 +192,7 @@
     };
 
     document.getElementById('miningPoolHost').textContent = poolHost;
+    document.getElementById('miningPoolIP').textContent = poolIP;
 
     var lastPortsJson = '';
     var $miningPorts = $('#miningPorts');
