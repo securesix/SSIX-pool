@@ -140,6 +140,11 @@ $('#payoutSetButton').click(function(){
         return;
     }
 
+    if (lastStats.config.maxPaymentThreshold > -1 && level > lastStats.config.maxPaymentThreshold / lastStats.config.coinUnits) {
+        showError("Payout level can't be more than pool maximum payment threshold", getReadableCoins(lastStats.config.maxPaymentThreshold));
+        return;
+    }
+
     setPayoutLevel(address, ip, level);
 });
       
