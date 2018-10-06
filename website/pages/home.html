@@ -437,6 +437,7 @@
                 $("#elapsedroundtime").html('Unknown');
             }
 
+            updateTop10Miners();
         }
     };
 
@@ -474,24 +475,49 @@
     }
 
     /* Top 10 miners */
-    var xhrGetTOP = $.ajax({
-        url: api + '/get_top10miners',
-        data: {
-            time: $('#top10_rows').children().last().data('time')
-        },
-        dataType: 'json',
-        cache: 'false',
-        success: function(data){
-            render(data);
-        }
-    });
+    var xhrGetTOP;
+
+    function updateTop10Miners(){
+        if (xhrGetTOP) xhrGetTOP.abort();
+        xhrGetTOP = $.ajax({
+            url: api + '/get_top10miners',
+            data: {
+                time: $('#top10_rows').children().last().data('time')
+            },
+            dataType: 'json',
+            cache: 'false',
+            success: function(data){
+                render(data);
+            }
+        });
+    }
+
     function render(data){
+        var rows = document.getElementById("top10_rows");
         for (var i=0; i<data.length; ++i) {
             var r = data[i];
-            if (r.hashrate > 0) {
-                 var app = '<tr><td>'+(i+1)+'</td>'+'<td>'+r.miner+'</td>'+'<td title="' + r.hashrate + ' H/s">'+getReadableHashRateString(r.hashrate)+'/s</td></tr>';
-                 $( "#top10_rows" ).append(app);
+            if (rows.children.length < i + 1) {
+                if (r.hashrate > 0) {
+                    var app = '<tr data-hashrate="' + r.hashrate + '" data-miner="' + r.miner + '" id="' + r.miner + '"><td>'+(i+1)+'</td>'+'<td>'+r.miner+'</td>'+'<td title="' + r.hashrate + ' H/s">'+getReadableHashRateString(r.hashrate || 0)+'/s</td></tr>';
+                    $( "#top10_rows" ).append(app);
+                }
+            } else {
+                var minerRow = rows.children.item(i);
+                if (r.hashrate > 0) {
+                    minerRow.setAttribute('data-hashrate', r.hashrate);
+                    minerRow.setAttribute('data-miner', r.miner);
+                    minerRow.setAttribute('id', r.miner);
+                    minerRow.children.item(1).innerHTML = r.miner;
+                    minerRow.children.item(2).setAttribute('title', r.hashrate + ' H/s');
+                    minerRow.children.item(2).innerHTML = getReadableHashRateString(r.hashrate || 0) + '/s';
+                    minerRow.style.visibility = "visible";
+                } else {
+                    minerRow.style.visibility = "hidden";
+                }
             }
+        }
+        while (rows.childElementCount > data.length) {
+            rows.lastElementChild.remove();
         }
     }
 
