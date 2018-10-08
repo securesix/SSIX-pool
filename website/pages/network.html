@@ -51,7 +51,7 @@
                 $.getJSON(url + '/stats', (data, textStatus, jqXHR) => {
                     updateText('height-'+host, data.network.height);
                     updateTitleText('height-'+host, data.network.height);
-                    updateText('hashrate-'+host, data.pool.hashrate+' H/s');
+                    updateText('hashrate-'+host, getReadableHashRateString(data.pool.hashrate)+'/s');
                     updateTitleText('hashrate-'+host, data.pool.hashrate);
                     updateText('miners-'+host, data.pool.miners);
                     updateTitleText('miners-'+host, data.pool.miners);
@@ -75,7 +75,7 @@
             $('#network_rows').append('<tr>' +
                 '<td id=host-'+host+'><a target=blank href=http://'+host+'>'+host+'</a> ('+data.config.symbol+')</td>' +
                 '<td id=height-'+host+' title='+data.network.height+'>'+data.network.height+'</td>' +
-                '<td id=hashrate-'+host+' title='+data.pool.hashrate+'>'+data.pool.hashrate+'/s</td>' +
+                '<td id=hashrate-'+host+' title='+data.pool.hashrate+'>'+getReadableHashRateString(data.pool.hashrate)+'/s</td>' +
                 '<td id=miners-'+host+' title='+data.pool.miners+'>'+data.pool.miners+'</td>' +
                 '<td id=workers-'+host+' title='+(data.pool.workers || 0)+'>'+(data.pool.workers || 0)+'</td>' +
                 '<td id=totalFee-'+host+' title='+calculateTotalFee(data)+'>'+calculateTotalFee(data)+'%</td>' +
@@ -111,7 +111,7 @@
             }
         }
         updateText('height-total', highestHeight);
-        updateText('hashrate-total', hashrate + ' H/s');
+        updateText('hashrate-total', getReadableHashRateString(hashrate) + '/s');
         updateText('miners-total', miners);
         updateText('workers-total', workers);
         updateText('totalBlocks-total', totalBlocks);
