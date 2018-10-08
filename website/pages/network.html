@@ -12,12 +12,13 @@
             <tr>
                 <th><span id="network-symbol"></span> Pools</th>
                 <th><i class="fa fa-bars"></i> Height</th>
-                <th><i class="fa fa-tachometer"></i> Hashrate</th>
-                <th><i class="fa fa-group"></i> Miners</th>
+                <th><i class="fas fa-tachometer-alt"></i> Hashrate</th>
+                <th><i class="fas fa-users"></i> Miners</th>
                 <th><i class="fa fa-gavel"></i> Workers</th>
-                <th><i class="fa fa-money"></i> Total Fee</th>
+                <th><i class="far fa-money-bill-alt"></i> Total Fee</th>
+                <th><i class="fas fa-coins"></i> Denomination</th>
                 <th><i class="fa fa-th-large"></i> Total Blocks Found</th>
-                <th><i class="fa fa-clock-o"></i> Last Block Found</th>
+                <th><i class="far fa-clock"></i> Last Block Found</th>
             </tr>
         </thead>
         <tbody id="network_rows">
@@ -30,6 +31,7 @@
                 <td id="miners-total"></td>
                 <td id="workers-total"></td>
                 <td id="totalFee-total">N/A</td>
+                <td id="denomination-total"></td>
                 <td id="totalBlocks-total"></td>
                 <td id="lastBlockFound-total"></td>
             </tr>
@@ -59,6 +61,8 @@
                     updateTitleText('workers-'+host, (data.pool.workers || 0));
                     updateText('totalFee-'+host, calculateTotalFee(data)+'%');
                     updateTitleText('totalFee-'+host, calculateTotalFee(data));
+                    updateText('denomination-'+host, getReadableCoins(data.config.denominationUnit,2,true));
+                    updateTitleText('denomination-'+host, data.config.denominationUnit);
                     updateText('totalBlocks-'+host, data.pool.totalBlocks);
                     updateTitleText('totalBlocks-'+host, data.pool.totalBlocks);
                     updateText('lastBlockFound-'+host, (data.pool.lastBlockFound ? new Date(parseInt(data.pool.lastBlockFound)).toLocaleString() : 'Never'));
@@ -73,12 +77,13 @@
     NETWORK_STAT_MAP.forEach((url, host, map) => {
         $.getJSON(url + '/stats', (data, textStatus, jqXHR) => {
             $('#network_rows').append('<tr>' +
-                '<td id=host-'+host+'><a target=blank href=http://'+host+'>'+host+'</a> ('+data.config.symbol+')</td>' +
+                '<td id=host-'+host+'><a target=blank href=http://'+host+'>'+host+'</a></td>' +
                 '<td id=height-'+host+' title='+data.network.height+'>'+data.network.height+'</td>' +
                 '<td id=hashrate-'+host+' title='+data.pool.hashrate+'>'+getReadableHashRateString(data.pool.hashrate)+'/s</td>' +
                 '<td id=miners-'+host+' title='+data.pool.miners+'>'+data.pool.miners+'</td>' +
                 '<td id=workers-'+host+' title='+(data.pool.workers || 0)+'>'+(data.pool.workers || 0)+'</td>' +
                 '<td id=totalFee-'+host+' title='+calculateTotalFee(data)+'>'+calculateTotalFee(data)+'%</td>' +
+                '<td id=denomination-'+host+' title='+data.config.denominationUnit+'>'+getReadableCoins(data.config.denominationUnit,2,true)+'</td>' +
                 '<td id=totalBlocks-'+host+' title='+data.pool.totalBlocks+'>'+data.pool.totalBlocks+'</td>' +
                 '<td id=lastBlockFound-'+host+' title='+(data.pool.lastBlockFound || 0)+'>'+ (data.pool.lastBlockFound ? new Date(parseInt(data.pool.lastBlockFound)).toLocaleString() : 'Never') +'</td>' +
             '</tr>');
@@ -91,6 +96,7 @@
         var hashrate = 0;
         var miners = 0;
         var workers = 0;
+        var highestDenomination = 0;
         var totalBlocks = 0;
         var lastBlockFound = 0;
         var pools = document.getElementById('network_rows').getElementsByTagName('tr');
@@ -104,8 +110,12 @@
             hashrate +=    parseInt(pool.childNodes[2].title);
             miners +=      parseInt(pool.childNodes[3].title);
             workers +=     parseInt(pool.childNodes[4].title);
-            totalBlocks += parseInt(pool.childNodes[6].title);
-            blockFound =   parseInt(pool.childNodes[7].title);
+            denomination = parseInt(pool.childNodes[6].title);
+            totalBlocks += parseInt(pool.childNodes[7].title);
+            blockFound =   parseInt(pool.childNodes[8].title);
+            if (denomination > highestDenomination) {
+                highestDenomination = denomination;
+            }
             if (blockFound > lastBlockFound) {
                 lastBlockFound = blockFound;
             }
@@ -114,6 +124,7 @@
         updateText('hashrate-total', getReadableHashRateString(hashrate) + '/s');
         updateText('miners-total', miners);
         updateText('workers-total', workers);
+        updateText('denomination-total', getReadableCoins(highestDenomination,2,true));
         updateText('totalBlocks-total', totalBlocks);
         updateText('lastBlockFound-total', (lastBlockFound ? new Date(lastBlockFound).toLocaleString() : 'Never'));
     }

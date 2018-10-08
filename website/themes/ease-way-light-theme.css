@@ -54,8 +54,11 @@ hr {
 .stats > div:not(#addressError) {
   color: #8A8A8A; 
 }
-.stats > div:not(#addressError) > i.fa {
+.stats > div:not(#addressError) > i.fa,
+.stats > div:not(#addressError) > i.fas,
+.stats > div:not(#addressError) > i.far {
   color: #727272;
+  font-size: 21px;
 }
 .stats > div:not(#addressError) > span:not(.input-group-btn):first-of-type {  
   color: #464646;
