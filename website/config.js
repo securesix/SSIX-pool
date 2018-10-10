@@ -21,9 +21,10 @@ var themeCss = "themes/default-theme.css";
 var networkStat = {
     "btor": [
         ["btor.simpool.xyz", "https://btor.simpool.xyz:4119"],
-        ["youpool.io/BTOR", "http://118.178.122.224:8119"],
+        ["youpool.io/BTOR", "http://144.202.120.143:8119"],
         ["miningpool.studio","https://miningpool.studio:8119"],
         ["pool.bittorium.org","https://pool.bittorium.org:8119"],
-        ["btor.thepiratemine.nl", "https://btor.thepiratemine.nl:2896"]
+        ["btor.thepiratemine.nl", "https://btor.thepiratemine.nl:2896"],
+        ["pool.raasu.org", "https://pool.raasu.org:8119"]
     ]
 };
