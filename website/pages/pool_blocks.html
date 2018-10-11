@@ -26,6 +26,7 @@
 <div class="blocksStatHolder">
     <span class="bg-primary">Total Blocks Mined: <span id="blocksTotal"></span></span>
     <span class="bg-info">Maturity Depth Requirement: <span id="blocksMaturityCount"></span></span>
+    <span class="bg-info">Average Luck: <span id="blocksAverageLuck"></span></span>
 </div>
 
 <hr>
@@ -190,6 +191,7 @@
     function renderBlocks(blocksResults){
 
         var $blocksRows = $('#blocks_rows');
+        var avgLuck = 0;
 
         for (var i = 0; i < blocksResults.length; i += 2){
 
@@ -199,6 +201,7 @@
 
             var existingRow = document.getElementById('blockRow' + block.height);
 
+            avgLuck += (block.shares / block.difficulty * 100);
             if (existingRow && existingRow.getAttribute('data-json') !== blockJson){
                 $(existingRow).replaceWith(getBlockRowElement(block, blockJson));
             }
@@ -220,6 +223,12 @@
                     $blocksRows.append(blockElement);
             }
 
+        }
+        if (blocksResults.length >= 2) {
+          avgLuck /= (blocksResults.length / 2);
+          var luck = document.getElementById("blocksAverageLuck");
+          luck.className = avgLuck > 100 ? "luckBad" : "luckGood";
+          luck.innerHTML = avgLuck.toFixed(1) + "%";
         }
     }
 
