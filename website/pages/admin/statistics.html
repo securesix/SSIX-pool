@@ -46,7 +46,8 @@
 		$('#orphanPercent').text((data.blocksUnlocked ? data.blocksOrphaned / data.blocksUnlocked * 100 : 0).toFixed(2) + '%');
 		$('#registeredAddresses').text(data.totalWorkers);
 		$('#blocksUnlocked').text(data.blocksUnlocked);
-    	$('#blocksOrphaned').text(data.blocksOrphaned);
+		$('#blocksOrphaned').text(data.blocksOrphaned);
+		$('#totalShares').text(getReadableHashRateString(data.totalShares));
 	}
 
 	$(function() {
@@ -85,6 +86,10 @@
 	<div class="col-sm-3 color8">
 		<h4><span class="fa fa-users"></span> Registered Addresses</h4>
 		<span class="statValue lead" id="registeredAddresses">...</span>
+	</div>
+	<div class="col-sm-3 color9">
+		<h4><span class="fa fa-bars"></span> Total Shares</h4>
+		<span class="statValue" id="totalShares">...</span>
 	</div>
 </div>
 
