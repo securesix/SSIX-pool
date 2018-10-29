@@ -110,7 +110,8 @@
         "poolFee": 0,
         "devDonation": 0,
         "coreDevDonation": 0,
-        "extraFeaturesDevDonation": 0
+        "extraFeaturesDevDonation": 0,
+        "masterNodeDonation": 0
     },
 
     "api": {
