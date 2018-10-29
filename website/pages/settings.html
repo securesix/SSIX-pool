@@ -44,6 +44,10 @@ currentPage = {
     destroy: function(){},
     init: function(){
         $('#yourPayoutRate').val(getReadableCoins(lastStats.config.minPaymentThreshold, 2, true));
+        $('#yourPayoutRate').attr('min', getReadableCoins(lastStats.config.minPaymentThreshold, 2, true));
+        if (lastStats.config.maxPaymentThreshold > -1) {
+          $('#yourPayoutRate').attr('max', getReadableCoins(lastStats.config.maxPaymentThreshold, 2, true));
+        }
     },
     update: function(){}
 };
