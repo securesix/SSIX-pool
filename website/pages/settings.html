@@ -48,6 +48,7 @@ currentPage = {
         if (lastStats.config.maxPaymentThreshold > -1) {
           $('#yourPayoutRate').attr('max', getReadableCoins(lastStats.config.maxPaymentThreshold, 2, true));
         }
+        $('#yourPayoutRate').attr('step', getReadableCoins(lastStats.config.denominationUnit, 2, true));
     },
     update: function(){}
 };
