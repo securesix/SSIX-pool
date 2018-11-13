@@ -27,6 +27,7 @@
     <span class="bg-primary">Total Blocks Mined: <span id="blocksTotal"></span></span>
     <span class="bg-info">Maturity Depth Requirement: <span id="blocksMaturityCount"></span></span>
     <span class="bg-info">Average Luck: <span id="blocksAverageLuck"></span></span>
+    <span class="bg-info">Pending Blocks: <span id="blocksPending"></span></span>
 </div>
 
 <hr>
@@ -65,6 +66,7 @@
         update: function(){
             updateText('blocksTotal', lastStats.pool.totalBlocks.toString());
             updateText('blocksMaturityCount', lastStats.config.depth.toString());
+            updateText('blocksPending', pendingBlocks());
             renderBlocks(lastStats.pool.blocks);
         }
     };
@@ -238,4 +240,15 @@
         }
     }
 
+    function pendingBlocks() {
+        totalPending = 0;
+        for (let i = 0; i < lastStats.pool.blocks.length; i++) {
+            if (i % 2 == 1) {
+                if (lastStats.pool.blocks[i] > (lastStats.network.height - lastStats.config.depth)) {
+                    totalPending++;
+                }
+            }
+        }
+        return totalPending;
+    }
 </script>
