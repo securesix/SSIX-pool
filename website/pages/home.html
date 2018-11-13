@@ -123,6 +123,7 @@
         <div><i class="fa fa-paw"></i> Last Hash: <a id="lastHash" target="_blank"></a></div>
         <div><i class="fas fa-coins"></i> Coins Mined: <span id="totalCoins"></span></div>
         <div><i class="fa fa-percent"></i> Emission: <span id="emissionPercent"></span></div>
+        <div><i class="fas fa-cart-arrow-down"></i> Pending Transactions: <a href="#mempool_transactions"><span id="pendingTransactions"></span></a></div>
         <div><i class="fa fa-bars"></i> Total Transactions: <span id="totalTransactions"></span></div>
     </div>
 
@@ -350,6 +351,7 @@
             if (xhrGetPayments) xhrGetPayments.abort();
             if (xhrGetTOP) xhrGetTOP.abort();
             if (xhrGetTotalCoins) xhrGetTotalCoins.abort();
+            if (xhrGetInfo) xhrGetInfo.abort();
         },
         init: function(){
         },
@@ -424,6 +426,7 @@
             updateText('blockSolvedTime', getReadableTime(lastStats.network.difficulty / lastStats.pool.hashrate));
             updateText('calcHashSymbol', lastStats.config.symbol);
             updateTotalCoins();
+            updateInfo();
             updateText('blocksTotal', lastStats.pool.totalBlocks.toString());
 
             calcEstimateProfit();
@@ -836,7 +839,24 @@
     }
 
 
-    
+
+    var xhrGetInfo;
+    function updateInfo(){
+        if (xhrGetInfo) xhrGetInfo.abort();
+        xhrGetInfo = $.ajax({
+            url: api_blockexplorer + '/getinfo',
+            method: "GET",
+            dataType: 'json',
+            cache: 'false',
+            success: function(data){
+                updateText('pendingTransactions', data.tx_pool_size);
+                updateTitleText('pendingTransactions', 'Transactions still waiting for confirmation');
+            }
+        });
+    }
+
+
+
     var xhrRenderCharts;
 
     $(function(){
