@@ -41,6 +41,7 @@
             <th><i class="fa fa-paw"></i> Block Hash</th>
             <th><i class="far fa-clock"></i> Time Found</th>
             <th><i class="far fa-star-half"></i> Shares/Diff</th>
+            <th><i class="far fa-money-bill-alt"></i> Reward</th>
         </tr>
         </thead>
         <tbody id="blocks_rows">
@@ -155,11 +156,15 @@
                     var percent = Math.round(accurateShares / difficulty * 100);
                     return '<span class="luckBad">' + percent + '%</span>';
                 }
-	    }
+            }
 
-	    function formatBlockLink(hash){
-            return '<a target="_blank" href="' + getBlockchainUrl(hash) + '">' + hash + '</a>';
-        }
+            function formatBlockReward(reward) {
+                return getReadableCoins(reward, 2, true);
+            }
+
+            function formatBlockLink(hash){
+                return '<a target="_blank" href="' + getBlockchainUrl(hash) + '">' + hash + '</a>';
+            }
 
         var blockStatusClasses = {
             'pending': 'light',
@@ -180,7 +185,8 @@
             '<td>' + block.difficulty + '</td>' +
             '<td>' + formatBlockLink(block.hash) + '</td>' +
             '<td>' + formatDate(block.time) + '</td>' +
-            '<td>' + formatLuck(block.difficulty, block.shares) + '</td>';
+            '<td>' + formatLuck(block.difficulty, block.shares) + '</td>' +
+            '<td>' + formatBlockReward(block.reward) + '</td>';
 
         row.innerHTML = columns;
 
