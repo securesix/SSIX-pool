@@ -140,7 +140,7 @@ $('#payoutSetButton').click(function(){
         return;
     }
 
-    if (level < lastStats.config.minPaymentThreshold / lastStats.config.coinUnits) {
+    if (level != 0 && level < lastStats.config.minPaymentThreshold / lastStats.config.coinUnits) {
         showError("Payout level can't be less than pool minimum payment threshold", getReadableCoins(lastStats.config.minPaymentThreshold));
         return;
     }
