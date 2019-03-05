@@ -440,6 +440,9 @@
 
             if (lastStats.pool.lastBlockFound){
                 var datacur = new Date() - new Date(parseInt(lastStats.pool.lastBlockFound));
+                if (datacur < 0) {
+                    datacur = 0;
+                }
                 var days = datacur / 86400000 | 0;
                 $("#elapsedroundtime").html((days > 0 ? days + ":" : "") + new Date(datacur).toISOString().split("T")[1].split(".")[0]);
             }
