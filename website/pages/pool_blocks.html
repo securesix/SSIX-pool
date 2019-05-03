@@ -103,11 +103,11 @@
         };
 
         var toGo = lastStats.config.depth - (lastStats.network.height - block.height);
-        if(toGo > 1){
+        if(toGo > 0){
             block.maturity = (lastStats.config.depth - toGo) + ' / ' + lastStats.config.depth;
-        } else if(toGo == 1){
+        } else if(toGo == 0){
             block.maturity = '<i class="fa fa-unlock" aria-hidden="true"></i>';
-        } else if(toGo <= 0){
+        } else if(toGo < 0){
             block.maturity = '<i class="fa fa-check" aria-hidden="true"></i>';
         }
 
