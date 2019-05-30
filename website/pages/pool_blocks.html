@@ -160,7 +160,8 @@
                 }
             }
 
-            function formatBlockReward(reward) {
+            function formatBlockReward(reward, pending) {
+                if (pending) return "Pending";
                 return getReadableCoins(reward, 2, true);
             }
 
@@ -188,7 +189,7 @@
             '<td>' + formatBlockLink(block.hash) + '</td>' +
             '<td>' + formatDate(block.time) + '</td>' +
             '<td>' + formatLuck(block.difficulty, block.shares) + '</td>' +
-            '<td>' + formatBlockReward(block.reward) + '</td>';
+            '<td>' + formatBlockReward(block.reward, block.status == "pending") + '</td>';
 
         row.innerHTML = columns;
 
