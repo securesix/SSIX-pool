@@ -102,6 +102,25 @@
         });
     });
 
+    function sortTable() {
+        var table = $('table').eq(0);
+        var tbody = table.children('tbody');
+        var rows = tbody.find('tr').toArray().sort(comparer());
+        for(var i = 0; i < rows.length; i++) {
+            tbody.append(rows[i]);
+       }
+    }
+    function comparer() {
+        return function(a, b) {
+            var valA = getCellValue(a);
+            var valB = getCellValue(b);
+            return $.isNumeric(valA) && $.isNumeric(valB) ? valB - valA : valB.localeCompare(valA);
+        }
+    }
+    function getCellValue(row) {
+        return $(row).children('td').eq(9).prop('title');
+    }
+
     function updateTotals() {
         var highestHeight = 0;
         var hashrate = 0;
@@ -133,6 +152,7 @@
                 lastBlockFound = blockFound;
             }
         }
+        sortTable();
         updateText('height-total', highestHeight);
         updateText('hashrate-total', getReadableHashRateString(hashrate) + '/s');
         updateText('miners-total', miners);
