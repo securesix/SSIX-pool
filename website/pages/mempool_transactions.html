@@ -98,7 +98,7 @@
         row.setAttribute('id', 'transactionRow' + transaction.hash);
         row.setAttribute('title', transaction.hash);
         var columns = 
-            '<td>' + transaction.hash + '</td>' +
+            '<td><a href="?hash=' + transaction.hash + '#mempool_transaction">' + transaction.hash + '</td>' +
             '<td title="' + transaction.fee + '">' + getReadableCoins(transaction.fee, 2, true) + '</td>' +
             '<td title="' + transaction.amount_out + '">' + getReadableCoins(transaction.amount_out, 2, true) + '</td>' +
             '<td>' + transaction.size + '</td>';
