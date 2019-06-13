@@ -423,7 +423,7 @@
                 updateText('paymentsMinimum', getReadableCoins(lastStats.config.minPaymentThreshold));
             }
 
-            updateText('blockSolvedTime', getReadableTime(lastStats.network.difficulty / lastStats.pool.hashrate));
+            updateText('blockSolvedTime', lastStats.pool.hashrate ? getReadableTime(lastStats.network.difficulty / lastStats.pool.hashrate) : 'N/A');
             updateText('calcHashSymbol', lastStats.config.symbol);
             updateTotalCoins();
             updateInfo();
