@@ -1,8 +1,8 @@
 {
-    "coin": "bittorium",
-    "symbol": "BTOR",
+    "coin": "talleo",
+    "symbol": "TLO",
     "coinUnits": 100,
-    "coinDifficultyTarget": 240,
+    "coinDifficultyTarget": 60,
 
     "logging": {
         "files": {
@@ -19,7 +19,7 @@
   "poolServer": {
     "enabled": true,
     "clusterForks": "auto",
-    "poolAddress": "bTXPouErxAPNQ9Ajwtn7NE589BiU7vb8y9rRow3vZYerBVA9AL2RGb498XgkXwYpUMLagvWSYfHEmW3X2LqCxd7214jA6JuyA",
+    "poolAddress": "TA4yACzMYuFYq7V6xVAWYHeS39jQ8w4mKRowpY6NskGuS1rZpjcWuCpdeCypwUCJrK9mGqVW9o1pY2EG3HW7BZkR2YRcc4YNa",
     "blockRefreshInterval": 1000,
     "minerTimeout": 3600,
     "sslCert": "./cert.pem",
@@ -131,12 +131,12 @@
 
     "daemon": {
         "host": "127.0.0.1",
-        "port": 34916
+        "port": 33888
     },
 
     "wallet": {
         "host": "127.0.0.1",
-        "port": 8070,
+        "port": 33777,
         "password": "<replace with rpc password>"
     },
 

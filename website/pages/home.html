@@ -817,7 +817,7 @@
             success: function(data){
                 updateText('totalCoins', getReadableCoins(data.result.block.alreadyGeneratedCoins));
                 updateText('totalTransactions', data.result.block.alreadyGeneratedTransactions);
-                updateText('emissionPercent', (data.result.block.alreadyGeneratedCoins / 180000000).toFixed(2) + '%');
+                updateText('emissionPercent', (data.result.block.alreadyGeneratedCoins / 300000000).toFixed(2) + '%');
             }
         });
     }
