@@ -16,7 +16,7 @@ var blockchainExplorer = "https://explorer.bittorium.org/?hash={id}#block";
 
 var transactionExplorer = "https://explorer.bittorium.org/?hash={id}#transaction";
 
-var themeCss = "themes/default-theme.css";
+var themeCss = "themes/default-theme.css?ver=1";
 
 var networkStat = {
     "btor": [
