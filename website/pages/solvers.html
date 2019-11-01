@@ -1,0 +1,80 @@
+<style>
+
+</style>
+<h3>Miners</h3>
+<div class="table-responsive">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th><i class="fas fa-chart-area"></i> Rank</th>
+                <th><i class="fa fa-user"></i> Miner Address</th>
+                <th><i class="fas fa-tachometer-alt"></i> Miner Hashrate</th>
+                <th><i class="fa fa-th-large"></i> Solved Blocks</th>
+                <th><i class="fas fa-cloud-upload-alt"></i> Total Hashes</th>
+            </tr>
+        </thead>
+        <tbody id="miner_rows">
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+    var xhrGetSolvers;
+    currentPage = {
+        destroy: function(){
+            if (xhrGetSolvers) xhrGetSolvers.abort();
+        },
+        init: function(){
+        },
+        update: function(){
+            updateTopSolvers();
+        }
+    };
+
+    /* Top 100 solvers */
+    function updateTopSolvers() {
+        if (xhrGetSolvers) xhrGetSolvers.abort();
+        xhrGetSolvers = $.ajax({
+            url: api + '/get_top100solvers',
+            data: {
+                time: $('#miner_rows').children().last().data('time')
+            },
+            dataType: 'json',
+            cache: 'false',
+            success: function(data){
+                render(data);
+            }
+        });
+    }
+
+    function render(data){
+        var rows = document.getElementById('miner_rows');
+        for (var i=0; i<data.length; ++i) {
+            var r = data[i];
+            var miner = r.miner;
+            if (rows.children.length < i + 1) {
+                if (r.blocks > 0) {
+                    rows.innerHTML += '<tr data-hashrate="' + r.hashrate + '" data-miner="' + r.miner + '" data-blocks="' + r.blocks + '" data-hashes="' + r.hashes + '" id="' + r.miner +'"><td>'+(i+1)+'</td>'+'<td>'+miner+'</td>'+'<td title="' + (r.hashrate || 0) + ' H/s">'+getReadableHashRateString(r.hashrate || 0)+'/s</td><td title="' + (r.blocks || 0) + '">' + (r.blocks || 0) + '</td><td title="' + (r.hashes || 0) + '">' + getReadableHashesString(r.hashes) + '</td></tr>';
+                }
+            }
+            else {
+                var minerRow = rows.children.item(i);
+                minerRow.setAttribute('data-hashrate', r.hashrate);
+                minerRow.setAttribute('data-miner', r.miner);
+                minerRow.setAttribute('id', r.miner);
+                minerRow.children.item(1).innerHTML = miner;
+                minerRow.children.item(2).setAttribute('title', (r.hashrate || 0)+' H/s');
+                minerRow.children.item(2).innerHTML = getReadableHashRateString(r.hashrate || 0)+'/s';
+                minerRow.children.item(3).setAttribute('title', (r.blocks || 0));
+                minerRow.children.item(3).innerHTML = (r.blocks || 0);
+                minerRow.children.item(4).setAttribute('title', (r.hashes || 0));
+                minerRow.children.item(4).innerHTML = getReadableHashesString(r.hashes || 0);
+            }
+        }
+        while (rows.childElementCount > data.length) {
+            rows.lastElementChild.remove();
+        }
+    }
+
+</script>
