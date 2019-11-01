@@ -149,7 +149,7 @@
             renderTransaction();
         },
         update: function(){
-            if (document.getElementById('block.confirm').innerHTML !== "Orphaned") {
+            if (document.getElementById('block.confirm').innerHTML !== "Orphaned" && document.getElementById('block.height').innerHTML !== "") {
                 var confirms = lastStats.network.height - parseInt(document.getElementById('block.height').innerHTML, 10);
                 updateText('block.confirm', confirms);
             }
@@ -172,33 +172,35 @@
             dataType: 'json',
             cache: 'false',
             success: function(data){
-                transaction = data.result.txDetails;
-                inputs = data.result.tx.vin;
-                outputs = data.result.tx.vout;
-                block = data.result.block;
-                console.log(JSON.stringify(inputs));
+                if (data.result !== undefined) {
+                    transaction = data.result.txDetails;
+                    inputs = data.result.tx.vin;
+                    outputs = data.result.tx.vout;
+                    block = data.result.block;
+                    console.log(JSON.stringify(inputs));
 
-                updateText('transaction.hash', transaction.hash);
-                updateText('transaction.amount_out', getReadableCoins(transaction.amount_out));
-                updateText('transaction.fee', getReadableCoins(transaction.fee));
-                updateText('transaction.mixin', transaction.mixin);
-                if (!transaction.mixin)
-                    $('#div_transaction_mixin').hide();
-                updateText('transaction.paymentId', transaction.paymentId);
-                if (!transaction.paymentId)
-                    $('#div_transaction_paymentId').hide();
-                updateText('transaction.size', transaction.size);
+                    updateText('transaction.hash', transaction.hash);
+                    updateText('transaction.amount_out', getReadableCoins(transaction.amount_out));
+                    updateText('transaction.fee', getReadableCoins(transaction.fee));
+                    updateText('transaction.mixin', transaction.mixin);
+                    if (!transaction.mixin)
+                        $('#div_transaction_mixin').hide();
+                    updateText('transaction.paymentId', transaction.paymentId);
+                    if (!transaction.paymentId)
+                        $('#div_transaction_paymentId').hide();
+                    updateText('transaction.size', transaction.size);
 
-                updateTextLinkable('block.hash', formatBlockLink(block.hash));
-                updateText('block.height', block.height);
-                updateText('block.timestamp', formatDate(block.timestamp));
-                if (block.orphan_status) {
-                    updateText('block.confirm', 'Orphaned');
-                } else {
-                    updateText('block.confirm', lastStats.network.height - block.height);
+                    updateTextLinkable('block.hash', formatBlockLink(block.hash));
+                    updateText('block.height', block.height);
+                    updateText('block.timestamp', formatDate(block.timestamp));
+                    if (block.orphan_status) {
+                        updateText('block.confirm', 'Orphaned');
+                    } else {
+                        updateText('block.confirm', lastStats.network.height - block.height);
+                    }
+                    renderInputs(inputs);
+                    renderOutputs(outputs);
                 }
-                renderInputs(inputs);
-                renderOutputs(outputs);
             }
         });
     }
