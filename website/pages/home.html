@@ -361,8 +361,8 @@
 
             $('#networkLastBlockFound').timeago('update', new Date(lastStats.network.timestamp * 1000).toISOString());
 
-            updateText('networkHashrate', getReadableHashRateString(lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + '/sec');
-            updateTitleText('networkHashrate', (lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + ' H/sec');
+            updateText('networkHashrate', getReadableHashRateString(lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + '/s');
+            updateTitleText('networkHashrate', (lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + ' H/s');
             updateText('networkDifficulty', getReadableDifficultyString(lastStats.network.difficulty));
             updateTitleText('networkDifficulty', lastStats.network.difficulty);
             updateText('blockchainHeight', lastStats.network.height.toString());
@@ -371,8 +371,8 @@
 
             updateText('currentEffort', (lastStats.pool.roundHashes / lastStats.network.difficulty * 100).toFixed(1) + '%');
 
-            updateText('poolHashrate', getReadableHashRateString(lastStats.pool.hashrate) + '/sec');
-            updateTitleText('poolHashrate', lastStats.pool.hashrate + ' H/sec');
+            updateText('poolHashrate', getReadableHashRateString(lastStats.pool.hashrate) + '/s');
+            updateTitleText('poolHashrate', lastStats.pool.hashrate + ' H/s');
 
             if (lastStats.pool.lastBlockFound){
                 var d = new Date(parseInt(lastStats.pool.lastBlockFound)).toISOString();
@@ -651,8 +651,8 @@
                     else
                         updateText('yourLastShare', 'Never');
 
-                    updateText('yourHashrateHolder', getReadableHashRateString(data.stats.hashrate || 0) + '/sec');
-                    updateTitleText('yourHashrateHolder', (data.stats.hashrate || 0) + ' H/sec');
+                    updateText('yourHashrateHolder', getReadableHashRateString(data.stats.hashrate || 0) + '/s');
+                    updateTitleText('yourHashrateHolder', (data.stats.hashrate || 0) + ' H/s');
                     updateText('yourHashes', getReadableHashesString(data.stats.hashes));
                     updateTitleText('yourHashes', data.stats.hashes);
                     updateText('yourBlocks', (data.stats.blocks || 0));
