@@ -251,7 +251,7 @@ Explanation for each field:
 /* Module that sends payments to miners according to their submitted shares. */
 "payments": {
     "enabled": true,
-    "interval": 600, //how often to run in seconds
+    "interval": 30, //how often to run in seconds
     "maxAddresses": 50, //split up payments if sending to more than this many addresses
     "mixin": 3, //number of transactions yours is indistinguishable from
     "transferFee": 1, //fee to pay for each transaction
@@ -265,7 +265,7 @@ Explanation for each field:
    to their shares. */
 "blockUnlocker": {
     "enabled": true,
-    "interval": 30, //how often to check block statuses in seconds
+    "interval": 15, //how often to check block statuses in seconds
 
     /* Block depth required for a block to unlocked/mature. Found in daemon source as
        the variable CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW */
