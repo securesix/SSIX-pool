@@ -271,6 +271,7 @@ Explanation for each field:
        the variable CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW */
     "depth": 60,
     "poolFee": 1.8, //1.8% pool fee (2% total fee total including donations)
+    "solverReward": 0, // 0% bonus to miner who submits nonce that solves the block
     "devDonation": 0.1, //0.1% donation to send to pool dev - only works with Monero
     "coreDevDonation": 0.1 //0.1% donation to send to core devs - works with Bytecoin, Monero, Dashcoin, QuarazCoin, Fantoncoin, AEON and OneEvilCoin
 },
@@ -530,7 +531,7 @@ Credits
 Donations
 ===
 
-If you want to support development of talleo-pool, you can send donations using following addresses or set "devDonation" to non-zero in [config.json](//github.com/TalleoProject/talleo-pool/blob/master/config.json#L111):
+If you want to support development of talleo-pool, you can send donations using following addresses or set "devDonation" to non-zero in [config.json](//github.com/TalleoProject/talleo-pool/blob/master/config.json#L112):
 * BCH: qryfpsnz3v607kupyrvnjgqang7urfj0fsetc3a9mf
 * BTC: 1D1YBHmFkd4J7bEG6PYfZBLoXtp98hKsfw
 * ETH: 0xc1d2DDB00c5B110855FAD9E2C7b8157D358b050e
