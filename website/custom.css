@@ -267,7 +267,7 @@ footer {
 /************************************************
 *** 20% width block ***
 ************************************************/
-.col-sm-20, .col-sm-33 {
+.col-sm-20, .col-sm-25, .col-sm-33 {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
@@ -277,6 +277,11 @@ footer {
   .col-sm-20 {
     float: left;
     width: 20%;
+  }
+
+  .col-sm-25 {
+    float: left;
+    width: 25%;
   }
 
   .col-sm-33 {

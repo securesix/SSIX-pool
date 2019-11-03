@@ -165,6 +165,12 @@
                 "stepInterval": 1800,
                 "maximumPeriod": 259200
             },
+            "miners": {
+                "enabled": true,
+                "updateInterval": 60,
+                "stepInterval": 1800,
+                "maximumPeriod": 259200
+            },
             "workers": {
                 "enabled": true,
                 "updateInterval": 60,
