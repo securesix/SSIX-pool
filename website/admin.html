@@ -76,6 +76,8 @@
 
 <script>
 
+	jQuery.timeago.settings.strings.seconds = '%d seconds';
+
 	lastStats = {};
 	$(function() {
 		$.get(api + '/stats', function(data) {
