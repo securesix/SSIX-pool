@@ -178,7 +178,9 @@
 
         var row = document.createElement('tr');
         row.setAttribute('data-json', jsonString);
+        row.setAttribute('data-difficulty', block.difficulty);
         row.setAttribute('data-height', block.height);
+        row.setAttribute('data-shares', block.shares);
         row.setAttribute('data-time', block.time);
         row.setAttribute('id', 'blockRow' + block.height);
         row.setAttribute('title', block.status);
@@ -202,7 +204,6 @@
     function renderBlocks(blocksResults){
 
         var $blocksRows = $('#blocks_rows');
-        var avgLuck = 0;
 
         for (var i = 0; i < blocksResults.length; i += 2){
 
@@ -212,7 +213,6 @@
 
             var existingRow = document.getElementById('blockRow' + block.height);
 
-            avgLuck += (block.shares / block.difficulty * 100);
             if (existingRow && existingRow.getAttribute('data-json') !== blockJson){
                 $(existingRow).replaceWith(getBlockRowElement(block, blockJson));
             }
@@ -235,8 +235,8 @@
             }
 
         }
-        if (blocksResults.length >= 2) {
-          avgLuck /= (blocksResults.length / 2);
+        if ($blocksRows.children().length >= 1) {
+          var avgLuck = getAverageLuck();
           var luck = document.getElementById("blocksAverageLuck");
           luck.className = avgLuck > 100 ? "luckBad" : "luckGood";
           luck.innerHTML = avgLuck.toFixed(1) + "%";
@@ -258,6 +258,17 @@
             }
         }
         return totalPending;
+    }
+
+    function getAverageLuck(){
+        var rows = $('#blocks_rows').children().get();
+        var avgLuck = 0;
+        for (var f = 0; f < rows.length - 1; f++) {
+            var shares = rows[f].getAttribute('data-shares');
+            var difficulty = rows[f].getAttribute('data-difficulty');
+            avgLuck += (shares / difficulty * 100);
+        }
+        return avgLuck / rows.length;
     }
 
     function getAverageSolveTime(){
