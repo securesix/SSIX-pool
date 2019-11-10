@@ -27,6 +27,7 @@
     <span class="bg-primary">Total Blocks Mined: <span id="blocksTotal"></span></span>
     <span class="bg-info">Maturity Depth Requirement: <span id="blocksMaturityCount"></span></span>
     <span class="bg-info">Average Luck: <span id="blocksAverageLuck"></span></span>
+    <span class="bg-info">Average Time: <span id="blocksAverageTime"></span></span>
     <span class="bg-info">Pending Blocks: <span id="blocksPending"></span></span>
 </div>
 
@@ -178,6 +179,7 @@
         var row = document.createElement('tr');
         row.setAttribute('data-json', jsonString);
         row.setAttribute('data-height', block.height);
+        row.setAttribute('data-time', block.time);
         row.setAttribute('id', 'blockRow' + block.height);
         row.setAttribute('title', block.status);
         row.className = blockStatusClasses[block.status];
@@ -239,6 +241,11 @@
           luck.className = avgLuck > 100 ? "luckBad" : "luckGood";
           luck.innerHTML = avgLuck.toFixed(1) + "%";
         }
+        if ($blocksRows.children().length >= 2) {
+          var avgSolveTime = getAverageSolveTime();
+          updateText('blocksAverageTime', getReadableTime(avgSolveTime));
+          updateTitleText('blocksAverageTime', avgSolveTime);
+        }
     }
 
     function pendingBlocks() {
@@ -251,5 +258,16 @@
             }
         }
         return totalPending;
+    }
+
+    function getAverageSolveTime(){
+        var rows = $('#blocks_rows').children().get();
+        var solveTimes = 0;
+        for (var f = 0; f < rows.length - 1; f++) {
+           var first = rows[f].getAttribute('data-time');
+           var second = rows[f + 1].getAttribute('data-time');
+           solveTimes += Math.abs(first - second);
+        }
+        return solveTimes / (rows.length - 1);
     }
 </script>
