@@ -116,6 +116,7 @@
         <span class="bg-primary">Total Blocks: <span id="networkLastReward"></span></span>
         <span class="bg-primary">Hash Rate: <span id="networkHashrate"></span></span>
         <span class="bg-primary">Difficulty: <span id="networkDifficulty"></span></span>
+        <span class="bg-primary">Average Time: <span id="avgTime"></span></span>
     </div>
     <div>
         <span class="bg-primary">Total coins in the network: <span id="totalCoins"></span></span>
@@ -298,6 +299,7 @@
         var row = document.createElement('tr');
         row.setAttribute('data-json', jsonString);
         row.setAttribute('data-height', block.height);
+        row.setAttribute('data-time', block.timestamp);
         row.setAttribute('id', 'blockRow' + block.height);
         row.setAttribute('title', block.hash);
         row.className = 'pending';
@@ -349,6 +351,20 @@
             }
 
         }
+        var avgTime = getAverageSolveTime();
+        updateText('avgTime', getReadableTime(avgTime));
+        updateTitleText('avgTime', avgTime);
+    }
+
+    function getAverageSolveTime(){
+        var rows = $('#blocks_rows').children().get();
+        var solveTimes = 0;
+        for (var f = 0; f < rows.length - 1; f++) {
+           var first = rows[f].getAttribute('data-time');
+           var second = rows[f + 1].getAttribute('data-time');
+           solveTimes += Math.abs(first - second);
+        }
+        return solveTimes / (rows.length - 1);
     }
 
 </script>
