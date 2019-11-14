@@ -88,71 +88,22 @@
         <tr>
             <td class="miningAppTitle">XMR-Stak | Unified All-in-one miner</td>
             <td>OpenCL (AMD) / Cuda (nvidia)</td>
-            <td><a target="_blank" href="https://github.com/fireice-uk/xmr-stak/releases">Github</a></td>
-            <td>2.4.3</td>
+            <td><a target="_blank" href="ftp://mail.talleo.org/talleo/xmr-stak-talleo-win.zip">Talleo FTP</a></td>
+            <td>2.10.7</td>
         </tr>
         <tr>
             <td colspan="5">
-                <i class="fa fa-info-circle"></i> Run <code>xmr-stak.exe</code> and answer the questions. After, you may also edit <code>config.txt</code> and <code>nvidia.txt</code> or <code>amd.txt</code> depending on which gpu's you are using to tweak your settings.
+                <i class="fa fa-info-circle"></i> Run <code>xmr-stak.exe</code> and answer the questions. After, you may also edit <code>config.txt</code> and <code>nvidia.txt</code> or <code>amd.txt</code> depending on which GPU's you are using to tweak your settings.
                 <br><br>
+                <h4>Automatic Configuration</h4>
                 Please enter:<br>
-                Currency: <code>cryptonight_lite_v7</code><br>
+                Currency: <code>talleo</code><br>
                 Pool address: e.g. <span class="exampleHost"></span>:<span class="examplePort"></span> <code><span class="exampleHost"></span>:<span class="examplePort"></span></code><br>
                 Username (wallet address or pool login): <code>YOUR_WALLET_ADDRESS+worker_name</code> the +worker_name is optional<br>
                 Password (mostly empty or x): <code>x</code> (It is not really a password, leave it blank or use x)<br>
                 Does this pool port support TLS/SSL? Use no if unknown. (y/n): <code>N</code><br>
                 Do you want to use nicehash on this pool? (y/n): <code>N</code><br>
                 Do you want to use multiple pools? (y/n): <code>N</code><br>
-            </td>
-        </tr>
-        <tr>
-            <td class="miningAppTitle">xmrig-AMD</td>
-            <td>OpenCL (AMD)</td>
-            <td><a target="_blank" href="https://github.com/xmrig/xmrig-amd/releases">Github </a></td>
-            <td>2.6.1</td>
-        </tr>
-        <tr>
-            <td colspan="5">
-                <span>Example:</span>
-                <code>xmrig-amd --algo=cryptonight-lite --variant 1 -o <span class="exampleHost"></span>:<span class="examplePort"></span> -u <span class="exampleAddress">YOUR_WALLET_ADDRESS+worker_name</span> -k --donate-level=1</code>
-            </td>
-        </tr>
-        <tr>
-            <td class="miningAppTitle">xmrig-CPU</td>
-            <td>CPU</td>
-            <td><a target="_blank" href="https://github.com/xmrig/xmrig/releases">Github </a></td>
-            <td>2.6.1</td>
-        </tr>
-        <tr>
-            <td colspan="5">
-                <span>Example:</span>
-                <code>xmrig --algo=cryptonight-lite --variant 1 -o <span class="exampleHost"></span>:<span class="examplePort"></span> -u <span class="exampleAddress">YOUR_WALLET_ADDRESS+worker_name</span> -k --donate-level=1</code>
-            </td>
-        </tr>
-        <tr>
-            <td class="miningAppTitle">xmrig-Nvidia</td>
-            <td>CUDA (Nvidia)</td>
-            <td><a target="_blank" href="https://github.com/xmrig/xmrig-nvidia/releases">Github </a></td>
-            <td>2.6.1</td>
-        </tr>
-        <tr>
-            <td colspan="5">
-                <span>Example:</span>
-                <code>xmrig-nvidia --algo=cryptonight-lite --variant 1 -o <span class="exampleHost"></span>:<span class="examplePort"></span> -u <span class="exampleAddress">YOUR_WALLET_ADDRESS+worker_name</span> -k --donate-level=1</code>
-            </td>
-        </tr>
-        <tr>
-            <td class="miningAppTitle">Cast XMR</td>
-            <td>OpenCL (AMD)</td>
-            <td><a target="_blank" href="http://www.gandalph3000.com/cast_xmr/cast-xmr-cryptonight-miner-for-rx-vega-update/">Website </a></td>
-            <td>1.0.0</td>
-        </tr>
-        <tr>
-            <td colspan="5">
-                <span>Example:</span>
-                <code>cast_xmr -S <span class="exampleHost"></span>:<span class="examplePort"></span> -u <span class="exampleAddress">YOUR_WALLET_ADDRESS+worker_name</span> --algo=4 -G 0,1,2,3 </code><br><br><p>
-                <code>-G 0,1,2,3</code>  Will tell miner to use GPU 4 GPUs Specify -G 1,2 to use the second and third GPU. 
-                </p>
             </td>
         </tr>
         </tbody>
