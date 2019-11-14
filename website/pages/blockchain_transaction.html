@@ -107,6 +107,7 @@
     </div>
 </div>
 
+<div id="inputs">
 <h3 class="inputs">Inputs</h3>
 <div class="table-responsive">
     <table class="table table-hover table-striped">
@@ -120,6 +121,7 @@
 
         </tbody>
     </table>
+</div>
 </div>
 
 
@@ -247,6 +249,9 @@
                 $inputsRows.append(inputElement);
             }
 
+        }
+        if ($inputsRows.children().length == 0){
+           $('#inputs').hide();
         }
     }
 
