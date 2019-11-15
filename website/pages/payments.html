@@ -20,9 +20,10 @@
 <div class="paymentsStatHolder">
     <span class="bg-primary">Total Payments: <span id="paymentsTotal"></span></span>
     <span class="bg-info">Total Miners Paid: <span id="paymentsTotalPaid"></span></span>
-    <span class="bg-info">Minimum Payment Threshold: <span id="paymentsMinimum"></span></span>
     <span class="bg-info">Payment Interval: <span id="paymentsInterval"></span></span>
-    <span class="bg-info">Denomination Unit: <span id="paymentsDenomination"></span></span>
+    <span class="bg-info">Denomination Unit: <span id="paymentsDenomination"></span></span><br/>
+    <span class="bg-info">Minimum Payment Threshold: <span id="paymentsMinimum"></span></span>
+    <span class="bg-info">Maximum Payment Threshold: <span id="paymentsMaximum"></span></span>
 </div>
 
 <hr>
@@ -66,6 +67,7 @@
             updateText('paymentsTotal', lastStats.pool.totalPayments.toString());
             updateText('paymentsTotalPaid', lastStats.pool.totalMinersPaid.toString());
             updateText('paymentsMinimum', getReadableCoins(lastStats.config.minPaymentThreshold, 2));
+            updateText('paymentsMaximum', lastStats.config.maxPaymentThreshold == -1 ? 'N/A' : getReadableCoins(lastStats.config.maxPaymentThreshold, 2));
             updateText('paymentsInterval', (lastStats.config.paymentsInterval ? getReadableTime(lastStats.config.paymentsInterval) : 'Unknown'));
             updateText('paymentsDenomination', getReadableCoins(lastStats.config.denominationUnit, 2));
             renderPayments(lastStats.pool.payments);
