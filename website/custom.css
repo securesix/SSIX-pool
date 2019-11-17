@@ -16,6 +16,9 @@ body {
   color: #6f6e6e;
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
 }
+.container {
+  width: calc(100% - 30px) !important;
+}
 h1,
 h2,
 h3,
