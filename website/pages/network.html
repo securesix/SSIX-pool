@@ -59,24 +59,37 @@
             const NETWORK_STAT_MAP = new Map(networkStat[lastStats.config.symbol.toLowerCase()]);
             NETWORK_STAT_MAP.forEach((url, host, map) => {
                 $.getJSON(url + '/stats', (data, textStatus, jqXHR) => {
+                    solohashrate = data.pool.solo_hashrate || 0;
+                    hashrate = data.pool.hashrate + solohashrate;
+                    solominers = data.pool.solo_miners || 0;
+                    miners = data.pool.miners + solominers;
+                    soloworkers = data.pool.solo_workers || 0;
+                    workers = (data.pool.workers || 0) + soloworkers;
+                    soloblocks = parseInt(data.pool.solo_totalBlocks || 0);
+                    blocks = data.pool.totalBlocks + soloblocks;
+                    sololastblock = parseInt(data.pool.solo_lastBlockFound || 0);
+                    lastblock = parseInt(data.pool.lastBlockFound || 0);
+                    if (sololastblock > lastblock) {
+                        lastblock = sololastblock;
+                    }
                     updateText('height-'+host, data.network.height);
                     updateTitleText('height-'+host, data.network.height);
-                    updateText('hashrate-'+host, getReadableHashRateString(data.pool.hashrate)+'/s');
-                    updateTitleText('hashrate-'+host, data.pool.hashrate);
-                    updateText('miners-'+host, data.pool.miners);
-                    updateTitleText('miners-'+host, data.pool.miners);
-                    updateText('workers-'+host, (data.pool.workers || 0));
-                    updateTitleText('workers-'+host, (data.pool.workers || 0));
+                    updateText('hashrate-'+host, getReadableHashRateString(hashrate)+'/s');
+                    updateTitleText('hashrate-'+host, hashrate);
+                    updateText('miners-'+host, miners);
+                    updateTitleText('miners-'+host, miners);
+                    updateText('workers-'+host, workers);
+                    updateTitleText('workers-'+host, workers);
                     updateText('totalFee-'+host, calculateTotalFee(data)+'%');
                     updateTitleText('totalFee-'+host, calculateTotalFee(data));
                     updateText('denomination-'+host, getReadableCoins(data.config.denominationUnit,2,true));
                     updateTitleText('denomination-'+host, data.config.denominationUnit);
                     updateText('pendingBlocks-'+host, calculatePending(data));
                     updateTitleText('pendingBlocks-'+host, calculatePending(data));
-                    updateText('totalBlocks-'+host, data.pool.totalBlocks);
-                    updateTitleText('totalBlocks-'+host, data.pool.totalBlocks);
-                    updateText('lastBlockFound-'+host, (data.pool.lastBlockFound ? new Date(parseInt(data.pool.lastBlockFound)).toLocaleString() : 'Never'));
-                    updateTitleText('lastBlockFound-'+host, (data.pool.lastBlockFound || 0));
+                    updateText('totalBlocks-'+host, blocks);
+                    updateTitleText('totalBlocks-'+host, blocks);
+                    updateText('lastBlockFound-'+host, (lastblock ? new Date(lastblock).toLocaleString() : 'Never'));
+                    updateTitleText('lastBlockFound-'+host, lastblock);
                     updateTotals();
                 });
             });
@@ -86,17 +99,30 @@
     const NETWORK_STAT_MAP = new Map(networkStat[lastStats.config.symbol.toLowerCase()]);
     NETWORK_STAT_MAP.forEach((url, host, map) => {
         $.getJSON(url + '/stats', (data, textStatus, jqXHR) => {
+            solohashrate = data.pool.solo_hashrate || 0;
+            hashrate = data.pool.hashrate + solohashrate;
+            solominers = data.pool.solo_miners || 0;
+            miners = data.pool.miners + solominers;
+            soloworkers = data.pool.solo_workers || 0;
+            workers = (data.pool.workers || 0) + soloworkers;
+            soloblocks = parseInt(data.pool.solo_totalBlocks || 0);
+            blocks = data.pool.totalBlocks + soloblocks;
+            sololastblock = parseInt(data.pool.solo_lastBlockFound || 0);
+            lastblock = parseInt(data.pool.lastBlockFound) || 0;
+            if (sololastblock > lastblock) {
+                lastblock = sololastblock;
+            }
             $('#network_rows').append('<tr>' +
                 '<td id=host-'+host+'><a target=blank href=http://'+host+'>'+host+'</a></td>' +
                 '<td id=height-'+host+' title='+data.network.height+'>'+data.network.height+'</td>' +
-                '<td id=hashrate-'+host+' title='+data.pool.hashrate+'>'+getReadableHashRateString(data.pool.hashrate)+'/s</td>' +
-                '<td id=miners-'+host+' title='+data.pool.miners+'>'+data.pool.miners+'</td>' +
-                '<td id=workers-'+host+' title='+(data.pool.workers || 0)+'>'+(data.pool.workers || 0)+'</td>' +
+                '<td id=hashrate-'+host+' title='+hashrate+'>'+getReadableHashRateString(hashrate)+'/s</td>' +
+                '<td id=miners-'+host+' title='+miners+'>'+miners+'</td>' +
+                '<td id=workers-'+host+' title='+workers+'>'+workers+'</td>' +
                 '<td id=totalFee-'+host+' title='+calculateTotalFee(data)+'>'+calculateTotalFee(data)+'%</td>' +
                 '<td id=denomination-'+host+' title='+data.config.denominationUnit+'>'+getReadableCoins(data.config.denominationUnit,2,true)+'</td>' +
                 '<td id=pendingBlocks-'+host+' title='+calculatePending(data)+'>'+calculatePending(data)+'</td>'+
-                '<td id=totalBlocks-'+host+' title='+data.pool.totalBlocks+'>'+data.pool.totalBlocks+'</td>' +
-                '<td id=lastBlockFound-'+host+' title='+(data.pool.lastBlockFound || 0)+'>'+ (data.pool.lastBlockFound ? new Date(parseInt(data.pool.lastBlockFound)).toLocaleString() : 'Never') +'</td>' +
+                '<td id=totalBlocks-'+host+' title='+blocks+'>'+blocks+'</td>' +
+                '<td id=lastBlockFound-'+host+' title='+lastblock+'>'+ (lastblock ? new Date(lastblock).toLocaleString() : 'Never') +'</td>' +
             '</tr>');
             updateTotals();
         });
@@ -180,6 +206,15 @@
                  if (data.pool.blocks[i] > (lastStats.network.height - data.config.depth)) {
                      totalPending++;
                  }
+            }
+        }
+        if (data.pool.solo_blocks) {
+            for (let i = 0; i < data.pool.solo_blocks.length; i++) {
+                if (i % 2 == 1) {
+                    if (data.pool.solo_blocks[i] > (lastStats.network.height - data.config.depth)) {
+                        totalPending++;
+                    }
+                }
             }
         }
         return totalPending;
