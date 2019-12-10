@@ -203,7 +203,7 @@
         totalPending = 0;
         for (let i = 0; i < data.pool.blocks.length; i++) {
             if (i % 2 == 1) {
-                 if (data.pool.blocks[i] > (lastStats.network.height - data.config.depth)) {
+                 if (data.pool.blocks[i] >= (lastStats.network.height - data.config.depth)) {
                      totalPending++;
                  }
             }
@@ -211,7 +211,7 @@
         if (data.pool.solo_blocks) {
             for (let i = 0; i < data.pool.solo_blocks.length; i++) {
                 if (i % 2 == 1) {
-                    if (data.pool.solo_blocks[i] > (lastStats.network.height - data.config.depth)) {
+                    if (data.pool.solo_blocks[i] >= (lastStats.network.height - data.config.depth)) {
                         totalPending++;
                     }
                 }

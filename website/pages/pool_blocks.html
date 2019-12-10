@@ -252,7 +252,7 @@
         totalPending = 0;
         for (let i = 0; i < lastStats.pool.blocks.length; i++) {
             if (i % 2 == 1) {
-                if (lastStats.pool.blocks[i] > (lastStats.network.height - lastStats.config.depth)) {
+                if (lastStats.pool.blocks[i] >= (lastStats.network.height - lastStats.config.depth)) {
                     totalPending++;
                 }
             }
