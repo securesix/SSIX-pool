@@ -24,6 +24,12 @@
     .luckBad{
         color: darkred;
     }
+    @media screen and (max-width: 1024px) {
+        table#recentBlocks th:nth-of-type(3),
+        table#recentBlocks td:nth-of-type(3) {
+          display: none !important;
+        }
+    }
 </style>
 <h3>Blockchain Blocks</h3>
 <div class="input-group">
@@ -132,11 +138,12 @@
 </h3>
 
 <div class="table-responsive">
-    <table class="table table-hover table-striped">
+    <table class="table table-hover table-striped" id="recentBlocks">
         <thead>
         <tr>
             <th><i class="fa fa-bars"></i> Height</th>
-            <th><i class="fa fa-unlock-alt"></i> Size</th>
+            <th><i class="fa fa-arrows-alt"></i> Size</th>
+            <th><i class="fa fa-unlock-alt"></i> Difficulty</th>
             <th><i class="fa fa-paw"></i> Block Hash</th>
             <th><i class="far fa-clock"></i> Time Found</th>
             <th><i class="fa fa-bars"></i> Transactions</th>
@@ -298,6 +305,7 @@
 
         var row = document.createElement('tr');
         row.setAttribute('data-json', jsonString);
+        row.setAttribute('data-difficulty', block.difficulty);
         row.setAttribute('data-height', block.height);
         row.setAttribute('data-time', block.timestamp);
         row.setAttribute('id', 'blockRow' + block.height);
@@ -307,6 +315,7 @@
         var columns =
             '<td>' + block.height + '</td>' +
             '<td>' + block.cumul_size + '</td>' +
+            '<td>' + block.difficulty + '</td>' +
             '<td>' + formatBlockLink(block.hash) + '</td>' +
             '<td>' + formatDate(block.timestamp) + '</td>' +
             '<td>' + block.tx_count + '</td>';
