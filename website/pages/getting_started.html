@@ -87,7 +87,7 @@
         <tbody id="mining_apps">
         <tr>
             <td class="miningAppTitle">XMR-Stak | Unified All-in-one miner</td>
-            <td>OpenCL (AMD) / Cuda (nvidia)</td>
+            <td>OpenCL (AMD) / Cuda (nVidia)</td>
             <td><a target="_blank" href="ftp://mail.talleo.org/talleo/xmr-stak-talleo-win.zip">Talleo FTP</a></td>
             <td>2.10.7</td>
         </tr>
@@ -104,6 +104,36 @@
                 Does this pool port support TLS/SSL? Use no if unknown. (y/n): <code>N</code><br>
                 Do you want to use nicehash on this pool? (y/n): <code>N</code><br>
                 Do you want to use multiple pools? (y/n): <code>N</code><br>
+            </td>
+        </tr>
+        <tr>
+            <td class="miningAppTitle">XMRig</td>
+            <td>OpenCL (AMD) / Cuda (nVidia)</td>
+            <td><a target="_blank" href="https://github.com/xmrig/xmrig/releases/latest">GitHub</a></td>
+            <td>v5.5.0</td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <i class="fa fa-info-circle"></i> Open <code>config.json</code> in text editor and edit <code>"pools"</code> section. Set <code>"url"</code> to pool address and correct port, and <code>"algo"</code> to <code>"cn/pico-tlo"</code>, <code>"user"</code> should be your wallet address, and <code>"pass"</code> should be left as <code>"x"</code>. You can set your worker name in <code>"rig-id"</code>.<br>
+                Example:<br>
+                <pre>
+    "pools": [
+        {
+            "algo": "cn-pico/tlo",
+            "coin": null,
+            "url": "<span class="exampleHost"></span>:<span class="examplePort"></span>",
+            "user": "TA4yACzMYuFYq7V6xVAWYHeS39jQ8w4mKRowpY6NskGuS1rZpjcWuCpdeCypwUCJrK9mGqVW9o1pY2EG3HW7BZkR2YRcc4YNa",
+            "pass": "x",
+            "rig-id": "xmrig",
+            "nicehash": false,
+            "keepalive": false,
+            "enabled": true,
+            "tls": false,
+            "tls-fingerprint": null,
+            "daemon": false,
+            "self-select": null
+        }
+    ],</pre>
             </td>
         </tr>
         </tbody>
