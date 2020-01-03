@@ -1,7 +1,7 @@
 <style>
     @media screen and (max-width: 1280px) {
-        th {
-            font-size: 76%;
+        th, td {
+            font-size: 68% !important;
         }
     }
 
@@ -9,6 +9,14 @@
         vertical-align: middle;
         font-family: 'Inconsolata', monospace;
         font-size: 0.95em;
+    }
+
+    #network_rows > tr > td:nth-of-type(4){
+        text-align: right;
+    }
+
+    tfoot > tr > td:nth-of-type(3){
+        text-align: right;
     }
 </style>
 <h3>Network</h3>
@@ -18,7 +26,7 @@
             <tr>
                 <th><span id="network-symbol"></span> Pools</th>
                 <th><i class="fa fa-bars"></i> Height</th>
-                <th><i class="fas fa-tachometer-alt"></i> Hashrate</th>
+                <th colspan="2" style="text-align: center;"><i class="fas fa-tachometer-alt"></i> Hashrate</th>
                 <th><i class="fas fa-users"></i> Miners</th>
                 <th><i class="fa fa-gavel"></i> Workers</th>
                 <th><i class="far fa-money-bill-alt"></i> Total Fee</th>
@@ -35,6 +43,7 @@
                 <th>Total</th>
                 <td id="height-total"></td>
                 <td id="hashrate-total"></td>
+                <td id="hashratepercent-total">100.00%</td>
                 <td id="miners-total"></td>
                 <td id="workers-total"></td>
                 <td id="totalFee-total">N/A</td>
@@ -116,6 +125,7 @@
                 '<td id=host-'+host+'><a target=blank href=http://'+host+'>'+host+'</a></td>' +
                 '<td id=height-'+host+' title='+data.network.height+'>'+data.network.height+'</td>' +
                 '<td id=hashrate-'+host+' title='+hashrate+'>'+getReadableHashRateString(hashrate)+'/s</td>' +
+                '<td id=hashratepercent-'+host+'>0%</td>'+
                 '<td id=miners-'+host+' title='+miners+'>'+miners+'</td>' +
                 '<td id=workers-'+host+' title='+workers+'>'+workers+'</td>' +
                 '<td id=totalFee-'+host+' title='+calculateTotalFee(data)+'>'+calculateTotalFee(data)+'%</td>' +
@@ -144,7 +154,7 @@
         }
     }
     function getCellValue(row) {
-        return $(row).children('td').eq(9).prop('title');
+        return $(row).children('td').eq(10).prop('title');
     }
 
     function updateTotals() {
@@ -165,12 +175,12 @@
                 highestHeight = height;
             }
             hashrate +=     parseInt(pool.childNodes[2].title);
-            miners +=       parseInt(pool.childNodes[3].title);
-            workers +=      parseInt(pool.childNodes[4].title);
-            denomination =  parseInt(pool.childNodes[6].title);
-            totalPending += parseInt(pool.childNodes[7].title);
-            totalBlocks +=  parseInt(pool.childNodes[8].title);
-            blockFound =    parseInt(pool.childNodes[9].title);
+            miners +=       parseInt(pool.childNodes[4].title);
+            workers +=      parseInt(pool.childNodes[5].title);
+            denomination =  parseInt(pool.childNodes[7].title);
+            totalPending += parseInt(pool.childNodes[8].title);
+            totalBlocks +=  parseInt(pool.childNodes[9].title);
+            blockFound =    parseInt(pool.childNodes[10].title);
             if (denomination > highestDenomination) {
                 highestDenomination = denomination;
             }
@@ -179,6 +189,13 @@
             }
         }
         sortTable();
+        pools = document.getElementById('network_rows').getElementsByTagName('tr');
+        for (var i = 0; i < pools.length; i++) {
+            var pool = pools[i];
+            var poolhashrate = parseInt(pool.childNodes[2].title);
+            var percent = poolhashrate * 100 / hashrate;
+            pool.childNodes[3].innerHTML = percent.toFixed(2) + "%";
+        }
         updateText('height-total', highestHeight);
         updateText('hashrate-total', getReadableHashRateString(hashrate) + '/s');
         updateText('miners-total', miners);
@@ -203,9 +220,9 @@
         totalPending = 0;
         for (let i = 0; i < data.pool.blocks.length; i++) {
             if (i % 2 == 1) {
-                 if (data.pool.blocks[i] >= (lastStats.network.height - data.config.depth)) {
-                     totalPending++;
-                 }
+                if (data.pool.blocks[i] >= (lastStats.network.height - data.config.depth)) {
+                    totalPending++;
+                }
             }
         }
         if (data.pool.solo_blocks) {
