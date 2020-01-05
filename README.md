@@ -81,8 +81,8 @@ Comes with lightweight example front-end script which uses the pool's AJAX API.
 
 #### Pools Using This Software
 
-* http://democats.org
-* http://cryptonotepool.com/
+* https://pool.talleo.org
+* https://pool.raasu.org
 
 Usage
 ===
@@ -118,7 +118,7 @@ sudo ln -s /usr/bin/nodejs /usr/bin/node
 Clone the repository and run `npm update` for all the dependencies to be installed:
 
 ```bash
-git clone https://github.com/mtl1979/talleo-pool pool
+git clone https://github.com/TalleoProject/talleo-pool pool
 cd pool
 npm config set strict-ssl false
 npm update
@@ -213,8 +213,7 @@ Explanation for each field:
         "maxJump": 100 //Limit diff percent increase/decrease in a single retargeting
     },
 
-    /* Set difficulty on miner client side by passing <address> param with .<difficulty> postfix
-       minerd -u D3z2DDWygoZU4NniCNa4oMjjKi45dC2KHUWUyD1RZ1pfgnRgcHdfLVQgh5gmRv4jwEjCX5LoLERAf5PbjLS43Rkd8vFUM1m.5000 */
+    /* Set difficulty on miner client side by passing <address> param with .<difficulty> postfix */
     "fixedDiff": {
         "enabled": true,
         "separator": ".", // character separator between <address> and <difficulty>
@@ -483,7 +482,7 @@ Documentation for JSON-RPC commands can be found here:
 Curl can be used to use the JSON-RPC commands from command-line. Here is an example of calling `getblockheaderbyheight` for block 100:
 
 ```bash
-curl 127.0.0.1:39984/json_rpc -d '{"method":"getblockheaderbyheight","params":{"height":100}}'
+curl 127.0.0.1:33888/json_rpc -d '{"method":"getblockheaderbyheight","params":{"height":100}}'
 ```
 
 
