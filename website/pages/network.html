@@ -68,15 +68,15 @@
             const NETWORK_STAT_MAP = new Map(networkStat[lastStats.config.symbol.toLowerCase()]);
             NETWORK_STAT_MAP.forEach((url, host, map) => {
                 $.getJSON(url + '/stats', (data, textStatus, jqXHR) => {
-                    solohashrate = data.pool.solo_hashrate || 0;
+                    solohashrate = data.pool.solo_hashrate || data.pool.hashrateSolo || 0;
                     hashrate = data.pool.hashrate + solohashrate;
-                    solominers = data.pool.solo_miners || 0;
+                    solominers = data.pool.solo_miners || data.pool.minersSolo || 0;
                     miners = data.pool.miners + solominers;
-                    soloworkers = data.pool.solo_workers || 0;
+                    soloworkers = data.pool.solo_workers || data.pool.workersSolo || 0;
                     workers = (data.pool.workers || 0) + soloworkers;
-                    soloblocks = parseInt(data.pool.solo_totalBlocks || 0);
+                    soloblocks = parseInt(data.pool.solo_totalBlocks || data.pool.totalBlocksSolo || 0);
                     blocks = data.pool.totalBlocks + soloblocks;
-                    sololastblock = parseInt(data.pool.solo_lastBlockFound || 0);
+                    sololastblock = parseInt(data.pool.solo_lastBlockFound || data.pool.lastBlockFoundSolo || 0);
                     lastblock = parseInt(data.pool.lastBlockFound || 0);
                     if (sololastblock > lastblock) {
                         lastblock = sololastblock;
@@ -108,15 +108,15 @@
     const NETWORK_STAT_MAP = new Map(networkStat[lastStats.config.symbol.toLowerCase()]);
     NETWORK_STAT_MAP.forEach((url, host, map) => {
         $.getJSON(url + '/stats', (data, textStatus, jqXHR) => {
-            solohashrate = data.pool.solo_hashrate || 0;
+            solohashrate = data.pool.solo_hashrate || data.pool.hashrateSolo || 0;
             hashrate = data.pool.hashrate + solohashrate;
-            solominers = data.pool.solo_miners || 0;
+            solominers = data.pool.solo_miners || data.pool.minersSolo || 0;
             miners = data.pool.miners + solominers;
-            soloworkers = data.pool.solo_workers || 0;
+            soloworkers = data.pool.solo_workers || data.pool.workersSolo || 0;
             workers = (data.pool.workers || 0) + soloworkers;
-            soloblocks = parseInt(data.pool.solo_totalBlocks || 0);
+            soloblocks = parseInt(data.pool.solo_totalBlocks || data.pool.totalBlocksSolo || 0);
             blocks = data.pool.totalBlocks + soloblocks;
-            sololastblock = parseInt(data.pool.solo_lastBlockFound || 0);
+            sololastblock = parseInt(data.pool.solo_lastBlockFound || data.pool.lastBlockFoundSolo || 0);
             lastblock = parseInt(data.pool.lastBlockFound) || 0;
             if (sololastblock > lastblock) {
                 lastblock = sololastblock;
