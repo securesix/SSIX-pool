@@ -9,9 +9,13 @@
     #networkLastReward{
         text-transform: uppercase;
     }
+    div.row > div > div {
+        white-space: nowrap;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
     #lastHash{
         font-family: 'Inconsolata', monospace;
-        font-size: 0.8em;
     }
     #poolDonations, #poolSolverReward{
         font-size: 0.75em;
@@ -133,6 +137,8 @@
         <div><i class="fa fa-percent"></i> Emission: <span id="emissionPercent"></span></div>
         <div><i class="fas fa-cart-arrow-down"></i> Pending Transactions: <a href="./#mempool_transactions"><span id="pendingTransactions"></span></a></div>
         <div><i class="fa fa-bars"></i> Total Transactions: <span id="totalTransactions"></span></div>
+        <div id="blockSize"><i class="fa fa-th-large"></i> Maximum Block Size: <span id="maxBlockSize"></span></div>
+        <div id="txSize"><i class="fa fa-bars"></i> Maximum Transaction Size: <span id="maxTxSize"></span></div>
     </div>
 
     <div class="col-md-4">
@@ -381,7 +387,7 @@
             updateTitleText('networkDifficulty', lastStats.network.difficulty);
             updateText('blockchainHeight', lastStats.network.height.toString());
             updateText('networkLastReward', getReadableCoins(lastStats.network.reward, 2));
-            updateText('lastHash', lastStats.network.hash.substr(0, 13) + '...').setAttribute('href', getBlockchainUrl(lastStats.network.hash));
+            updateText('lastHash', lastStats.network.hash).setAttribute('href', getBlockchainUrl(lastStats.network.hash));
 
             updateText('currentEffort', (lastStats.pool.roundHashes / lastStats.network.difficulty * 100).toFixed(1) + '%');
 
@@ -861,6 +867,18 @@
             success: function(data){
                 updateText('pendingTransactions', data.tx_pool_size);
                 updateTitleText('pendingTransactions', 'Transactions still waiting for confirmation');
+                if (data.max_block_size) {
+                    updateText('maxBlockSize', getReadableSizeString(data.max_block_size));
+                    updateTitleText('maxBlockSize', data.max_block_size);
+                } else {
+                    $('#blockSize').hide();
+                }
+                if (data.max_tx_size) {
+                    updateText('maxTxSize', getReadableSizeString(data.max_tx_size));
+                    updateTitleText('maxTxSize', data.max_tx_size);
+                } else {
+                    $('#txSize').hide();
+                }
             }
         });
     }

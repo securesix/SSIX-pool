@@ -179,6 +179,16 @@
         return hashrate.toFixed(2) + byteUnits[i];
     }
 
+    function getReadableSizeString(size){
+        var i = 0;
+        var byteUnits = [' B', ' kB', ' MB', ' GB', ' TB', ' PB' ];
+        while (size > 1024){
+            size = size / 1024;
+            i++;
+        }
+        return size.toFixed(2) + byteUnits[i];
+    }
+
     function getReadableDifficultyString(difficulty){
         if (difficulty < 1000) return difficulty.toString();
         var i = 0;
