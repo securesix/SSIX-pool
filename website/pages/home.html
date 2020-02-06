@@ -107,7 +107,7 @@
         <div><i class="fas fa-tachometer-alt"></i> Hash Rate: <span id="poolHashrate"></span></div>
         <div><i class="fa fa-users"></i> Connected Miners: <span id="poolMiners"></span></div>
         <div><i class="fa fa-gavel"></i> Connected Workers: <span id="poolWorkers"></span></div>
-        <div><i class="far fa-clock"></i> Block Found: <span id="poolLastBlockFound"></span></div>
+        <div><i class="far fa-clock"></i> Block Found: <span id="poolLastBlockFound"></span><span id="poolDrift"></span></div>
         <div id="donations"><i class="fa fa-gift"></i> Donations: <span id="poolDonations"></span></div>
         <div id="solverReward"><i class="fa fa-percent"></i> Solver Reward: <span id="poolSolverReward"></span></div>
         <div><i class="fa fa-history"></i> Average Block Time: <span id="blockSolvedTime"></span></div>
@@ -128,7 +128,7 @@
     <div class="col-md-4 stats">
         <h3>Network</h3>
         <div><i class="fas fa-tachometer-alt"></i> Hash Rate: <span id="networkHashrate"></span></div>
-        <div><i class="far fa-clock"></i> Block Found: <span id="networkLastBlockFound"></span></div>
+        <div><i class="far fa-clock"></i> Block Found: <span id="networkLastBlockFound"></span><span id="networkDrift"></span></div>
         <div><i class="fa fa-unlock-alt"></i> Difficulty: <span id="networkDifficulty"></span></div>
         <div><i class="fa fa-bars"></i> Blockchain Height: <span id="blockchainHeight"></span></div>
         <div><i class="far fa-money-bill-alt"></i> Last Reward: <span id="networkLastReward"></span></div>
@@ -359,7 +359,8 @@
 </div>
 
 <script>
-
+    var poolDrift = 0;
+    var netDrift = 0;
 
     currentPage = {
         destroy: function(){
@@ -379,7 +380,12 @@
         },
         update: function(){
 
-            $('#networkLastBlockFound').timeago('update', new Date(lastStats.network.timestamp * 1000).toISOString());
+            var netcur = new Date() - new Date(lastStats.network.timestamp * 1000) + netDrift;
+            if (netcur < 0) {
+               netDrift -= netcur;
+            }
+            $('#networkLastBlockFound').timeago('update', new Date(lastStats.network.timestamp * 1000 - netDrift).toISOString());
+            $('#networkDrift').html("<!-- drift " + netDrift + " ms -->");
 
             updateText('networkHashrate', getReadableHashRateString(lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + '/s');
             updateTitleText('networkHashrate', (lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + ' H/s');
@@ -395,11 +401,21 @@
             updateTitleText('poolHashrate', lastStats.pool.hashrate + ' H/s');
 
             if (lastStats.pool.lastBlockFound){
-                var d = new Date(parseInt(lastStats.pool.lastBlockFound)).toISOString();
+                var datacur = new Date() - new Date(parseInt(lastStats.pool.lastBlockFound)) + poolDrift;
+                if (datacur < 0) {
+                    poolDrift -= datacur;
+                    datacur = 0;
+                }
+                var d = new Date(parseInt(lastStats.pool.lastBlockFound) - poolDrift).toISOString();
                 $('#poolLastBlockFound').timeago('update', d);
+                $('#poolDrift').html("<!-- drift " + poolDrift + " ms -->");
+                var days = datacur / 86400000 | 0;
+                $('#elapsedroundtime').html((days > 0 ? days + ":" : "") + new Date(datacur).toISOString().split("T")[1].split(".")[0]);
             }
-            else
+            else {
                 $('#poolLastBlockFound').removeAttr('title').data('ts', '').update('Never');
+                $('#elapsedroundtime').html('Unknown');
+            }
 
             updateText('poolRoundHashes', getReadableDifficultyString(lastStats.pool.roundHashes));
             updateTitleText('poolRoundHashes', lastStats.pool.roundHashes);
@@ -465,18 +481,6 @@
             updateText('poolLoad', averageLoad.toFixed(2));
 
             var shareCount = lastStats.pool.roundHashes;
-
-            if (lastStats.pool.lastBlockFound){
-                var datacur = new Date() - new Date(parseInt(lastStats.pool.lastBlockFound));
-                if (datacur < 0) {
-                    datacur = 0;
-                }
-                var days = datacur / 86400000 | 0;
-                $("#elapsedroundtime").html((days > 0 ? days + ":" : "") + new Date(datacur).toISOString().split("T")[1].split(".")[0]);
-            }
-            else {
-                $("#elapsedroundtime").html('Unknown');
-            }
 
             updateTop10Miners();
         }
