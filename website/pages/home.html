@@ -314,6 +314,7 @@
             <div class="yourStats"><i class="fas fa-tachometer-alt"></i> Hash Rate: <span id="yourHashrateHolder"></span></div>
             <div class="yourStats"><i class="fas fa-cloud-upload-alt"></i> Total Hashes Submitted: <span id="yourHashes"></span></div>
             <div class="yourStats"><i class="fa fa-th-large"></i> Total Blocks Found: <span id="yourBlocks"></span></div>
+            <div class="yourStats"><i class="fas fa-tachometer-alt"></i> Hashes Per Block: <span id="yourHashesPerBlock"></span></div>
         </div>
         <div class="col-sm-4">            
             <div class="userChart" data-chart="user_hashrate">
@@ -686,6 +687,9 @@
                     updateTitleText('yourHashes', data.stats.hashes);
                     updateText('yourBlocks', (data.stats.blocks || 0));
                     updateTitleText('yourBlocks', (data.stats.blocks || 0));
+                    var hashesPerBlock = data.stats.blocks ? ((data.stats.hashes || 0) / data.stats.blocks) : 0;
+                    updateText('yourHashesPerBlock', getReadableHashesString(hashesPerBlock));
+                    updateTitleText('yourHashesPerBlock', hashesPerBlock);
                     updateText('yourPaid', getReadableCoins(data.stats.paid));
                     updateText('yourPendingBalance', getReadableCoins(data.stats.balance));
 
