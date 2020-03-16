@@ -5,17 +5,26 @@
         }
     }
 
+    .table > thead > tr > th:nth-of-type(n+2){
+        text-align: center;
+    }
     #network_rows > tr > td{
         vertical-align: middle;
         font-family: 'Inconsolata', monospace;
         font-size: 0.95em;
     }
 
-    #network_rows > tr > td:nth-of-type(4){
+    #network_rows > tr > td:nth-of-type(n+2){
         text-align: right;
     }
 
-    tfoot > tr > td:nth-of-type(3){
+    .table > tfoot > tr > th,
+    .table > tfoot > tr > td{
+        border-top-style: solid;
+        border-top-width: 2px;
+        border-top-color: #336A80;
+    }
+    tfoot > tr > td:nth-of-type(n+1){
         text-align: right;
     }
 </style>
@@ -26,7 +35,7 @@
             <tr>
                 <th><span id="network-symbol"></span> Pools</th>
                 <th><i class="fa fa-bars"></i> Height</th>
-                <th colspan="2" style="text-align: center;"><i class="fas fa-tachometer-alt"></i> Hashrate</th>
+                <th colspan="2"><i class="fas fa-tachometer-alt"></i> Hashrate</th>
                 <th><i class="fas fa-users"></i> Miners</th>
                 <th><i class="fa fa-gavel"></i> Workers</th>
                 <th><i class="far fa-money-bill-alt"></i> Total Fee</th>
@@ -166,7 +175,9 @@
         var totalPending = 0;
         var totalBlocks = 0;
         var lastBlockFound = 0;
-        var pools = document.getElementById('network_rows').getElementsByTagName('tr');
+        var rows = document.getElementById('network_rows'); // Make sure user hasn't navigated to another page
+        if (rows == null) return;
+        var pools = rows.getElementsByTagName('tr');
         for (var i = 0; i < pools.length; i++) {
             var pool = pools[i];
             var blockFound = 0;
@@ -189,7 +200,7 @@
             }
         }
         sortTable();
-        pools = document.getElementById('network_rows').getElementsByTagName('tr');
+        pools = rows.getElementsByTagName('tr');
         for (var i = 0; i < pools.length; i++) {
             var pool = pools[i];
             var poolhashrate = parseInt(pool.childNodes[2].title);

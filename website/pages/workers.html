@@ -48,6 +48,7 @@
 
     function render(data){
         var rows = document.getElementById('worker_rows');
+        if (rows == null) return;
         for (var i=0; i<data.length; ++i) {
             var r = data[i];
             var worker = "**" + r.worker.substring(89);

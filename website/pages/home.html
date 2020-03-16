@@ -315,6 +315,7 @@
             <div class="yourStats"><i class="fas fa-cloud-upload-alt"></i> Total Hashes Submitted: <span id="yourHashes"></span></div>
             <div class="yourStats"><i class="fa fa-th-large"></i> Total Blocks Found: <span id="yourBlocks"></span></div>
             <div class="yourStats"><i class="fas fa-tachometer-alt"></i> Hashes Per Block: <span id="yourHashesPerBlock"></span></div>
+            <div class="yourStats"><i class="fas fa-dollar-sign"></i> Hashes Per <abbr id="coinSymbol">Coin</abbr>: <span id="yourHashesPerCoin"></span></div>
         </div>
         <div class="col-sm-4">            
             <div class="userChart" data-chart="user_hashrate">
@@ -520,6 +521,7 @@
 
     function render(data){
         var rows = document.getElementById("top10_rows");
+        if (rows == null) return;
         for (var i=0; i<data.length; ++i) {
             var r = data[i];
             if (rows.children.length < i + 1) {
@@ -690,6 +692,10 @@
                     var hashesPerBlock = data.stats.blocks ? ((data.stats.hashes || 0) / data.stats.blocks) : 0;
                     updateText('yourHashesPerBlock', getReadableHashesString(hashesPerBlock));
                     updateTitleText('yourHashesPerBlock', hashesPerBlock);
+                    var totalPaid = (data.stats.paid || 0) / lastStats.config.coinUnits;
+                    updateText('yourHashesPerCoin', getReadableHashesString(totalPaid ? (data.stats.hashes / totalPaid) : 0));
+                    updateText('coinSymbol', lastStats.config.symbol);
+                    updateTitleText('yourHashesPerCoin', totalPaid ? (data.stats.hashes / totalPaid) : 0);
                     updateText('yourPaid', getReadableCoins(data.stats.paid));
                     updateText('yourPendingBalance', getReadableCoins(data.stats.balance));
 

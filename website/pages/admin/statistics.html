@@ -38,10 +38,10 @@
 	}
 
 	function renderData(data) {
-		$('#totalOwed').text(getReadableCoins(data.totalOwed));
-		$('#totalPaid').text(getReadableCoins(data.totalPaid));
-		$('#totalMined').text(getReadableCoins(data.totalRevenue));
-		$('#profit').text(getReadableCoins(data.totalRevenue - data.totalOwed - data.totalPaid));
+		$('#totalOwed').text(getReadableCoins(data.totalOwed, null, true));
+		$('#totalPaid').text(getReadableCoins(data.totalPaid, null, true));
+		$('#totalMined').text(getReadableCoins(data.totalRevenue, null, true));
+		$('#profit').text(getReadableCoins(data.totalRevenue - data.totalOwed - data.totalPaid, null, true));
 		$('#averageLuck').html(formatLuck(data.totalDiff, data.totalShares));
 		$('#orphanPercent').text((data.blocksUnlocked ? data.blocksOrphaned / data.blocksUnlocked * 100 : 0).toFixed(2) + '%');
 		$('#registeredAddresses').text(data.totalWorkers);

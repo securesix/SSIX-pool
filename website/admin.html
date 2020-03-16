@@ -17,6 +17,7 @@
 
 <link href="custom.css?ver=1" rel="stylesheet">
 <script src="custom.js"></script>
+<script src="common.js"></script>
 
 <style>
 	#statsHolder {
@@ -122,21 +123,6 @@
 			return (new RegExp("(?:^|;\\s*)" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
 		}
 	};
-
-	function getReadableCoins(coins) {
-		return (parseInt(coins || 0) / lastStats.config.coinUnits).toFixed(lastStats.config.coinUnits.toString().length - 1);
-	}
-
-	function getReadableHashRateString(hashrate) {
-		hashrate = hashrate || 0;
-		var i = 0;
-		var byteUnits = [' H', ' kH', ' MH', ' GH', ' TH', ' PH' ];
-		while(hashrate > 1000) {
-			hashrate = hashrate / 1000;
-			i++;
-		}
-		return parseFloat(hashrate).toFixed(2) + byteUnits[i];
-	}
 
 	window.onhashchange = function() {
 		routePage();
