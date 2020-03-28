@@ -1,5 +1,5 @@
 function getReadableHashRateString(hashrate){
-    hashrate = hashrate || 0;
+    hashrate = parseFloat(hashrate || 0);
     var i = 0;
     var byteUnits = [' H', ' kH', ' MH', ' GH', ' TH', ' PH'];
     while (hashrate > 1000){
