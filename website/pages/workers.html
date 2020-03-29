@@ -53,7 +53,7 @@
             var r = data[i];
             var worker = "**" + r.worker.substring(89);
             if (rows.children.length < i + 1) {
-                rows.innerHTML += '<tr data-hashrate="' + r.hashrate + '" data-worker="' + r.worker + '" id="' + r.worker +'"><td>'+(i+1)+'</td>'+'<td>'+worker+'</td>'+'<td title="' + (r.hashrate || 0) + ' H/s">'+getReadableHashRateString(r.hashrate || 0)+'/s</td></tr>';
+                rows.innerHTML += '<tr data-hashrate="' + r.hashrate + '" data-worker="' + r.worker + '" id="' + r.worker +'"><td>'+(i+1)+'</td>'+'<td>'+worker+'</td>'+'<td title="' + (r.hashrate || 0) + ' H/s">'+getReadableHashRateString(r.hashrate || 0)+'</td></tr>';
             }
             else {
                 var workerRow = rows.children.item(i);
@@ -61,8 +61,8 @@
                 workerRow.setAttribute('data-worker', r.worker);
                 workerRow.setAttribute('id', r.worker);
                 workerRow.children.item(1).innerHTML = worker;
-                workerRow.children.item(2).setAttribute('title', r.hashrate + '/s');
-                workerRow.children.item(2).innerHTML = getReadableHashRateString(r.hashrate || 0)+'/s';
+                workerRow.children.item(2).setAttribute('title', r.hashrate + ' H/s');
+                workerRow.children.item(2).innerHTML = getReadableHashRateString(r.hashrate || 0);
             }
         }
         while (rows.childElementCount > data.length) {

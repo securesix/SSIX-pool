@@ -92,7 +92,7 @@
                     }
                     updateText('height-'+host, data.network.height);
                     updateTitleText('height-'+host, data.network.height);
-                    updateText('hashrate-'+host, getReadableHashRateString(hashrate)+'/s');
+                    updateText('hashrate-'+host, getReadableHashRateString(hashrate));
                     updateTitleText('hashrate-'+host, hashrate);
                     updateText('miners-'+host, miners);
                     updateTitleText('miners-'+host, miners);
@@ -208,7 +208,7 @@
             pool.childNodes[3].innerHTML = percent.toFixed(2) + "%";
         }
         updateText('height-total', highestHeight);
-        updateText('hashrate-total', getReadableHashRateString(hashrate) + '/s');
+        updateText('hashrate-total', getReadableHashRateString(hashrate));
         updateText('miners-total', miners);
         updateText('workers-total', workers);
         updateText('denomination-total', getReadableCoins(highestDenomination,2,true));

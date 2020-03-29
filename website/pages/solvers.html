@@ -58,7 +58,7 @@
             var hashesPerBlock = r.blocks ? (r.hashes || 0) / r.blocks : 0;
             if (rows.children.length < i + 1) {
                 if (r.blocks > 0) {
-                    rows.innerHTML += '<tr data-hashrate="' + r.hashrate + '" data-miner="' + r.miner + '" data-blocks="' + r.blocks + '" data-hashes="' + r.hashes + '" id="' + r.miner +'"><td>'+(i+1)+'</td>'+'<td>'+miner+'</td>'+'<td title="' + (r.hashrate || 0) + ' H/s">'+getReadableHashRateString(r.hashrate || 0)+'/s</td><td title="' + (r.blocks || 0) + '">' + (r.blocks || 0) + '</td><td title="' + (r.hashes || 0) + '">' + getReadableHashesString(r.hashes) + '</td><td title="' + hashesPerBlock + '">' + getReadableHashesString(hashesPerBlock) + '</td></tr>';
+                    rows.innerHTML += '<tr data-hashrate="' + r.hashrate + '" data-miner="' + r.miner + '" data-blocks="' + r.blocks + '" data-hashes="' + r.hashes + '" id="' + r.miner +'"><td>'+(i+1)+'</td>'+'<td>'+miner+'</td>'+'<td title="' + (r.hashrate || 0) + ' H/s">'+getReadableHashRateString(r.hashrate || 0)+'</td><td title="' + (r.blocks || 0) + '">' + (r.blocks || 0) + '</td><td title="' + (r.hashes || 0) + '">' + getReadableHashesString(r.hashes) + '</td><td title="' + hashesPerBlock + '">' + getReadableHashesString(hashesPerBlock) + '</td></tr>';
                 }
             }
             else {
@@ -68,7 +68,7 @@
                 minerRow.setAttribute('id', r.miner);
                 minerRow.children.item(1).innerHTML = miner;
                 minerRow.children.item(2).setAttribute('title', (r.hashrate || 0)+' H/s');
-                minerRow.children.item(2).innerHTML = getReadableHashRateString(r.hashrate || 0)+'/s';
+                minerRow.children.item(2).innerHTML = getReadableHashRateString(r.hashrate || 0);
                 minerRow.children.item(3).setAttribute('title', (r.blocks || 0));
                 minerRow.children.item(3).innerHTML = (r.blocks || 0);
                 minerRow.children.item(4).setAttribute('title', (r.hashes || 0));

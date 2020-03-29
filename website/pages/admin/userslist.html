@@ -55,8 +55,8 @@
 					readableMinimumPayout: getReadableCoins(userData.minimumPayout, null, true),
 					readablePaid: getReadableCoins(userData.paid, null, true),
 					readableHashesPerCoin: getReadableHashesString(totalPaid ? ((userData.hashes || 0) / totalPaid) : 0),
-					readableHashrate: getReadableHashRateString(userData.hashrate) + '/s',
-					readableHashes: getReadableHashRateString(userData.hashes || 0)
+					readableHashrate: getReadableHashRateString(userData.hashrate),
+					readableHashes: getReadableHashesString(userData.hashes || 0)
 				});
 				totalUsers++;
 			}

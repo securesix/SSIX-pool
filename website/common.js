@@ -1,12 +1,13 @@
 function getReadableHashRateString(hashrate){
     hashrate = parseFloat(hashrate || 0);
+    if (hashrate < 1000) return hashrate.toFixed(0) + ' H/s';
     var i = 0;
-    var byteUnits = [' H', ' kH', ' MH', ' GH', ' TH', ' PH'];
+    var byteUnits = [' H/s', ' kH/s', ' MH/s', ' GH/s', ' TH/s', ' PH/s'];
     while (hashrate > 1000){
         hashrate = hashrate / 1000;
         i++;
     }
-    return hashrate.toFixed(2) + byteUnits[i];
+    return hashrate.toFixed(3) + byteUnits[i];
 }
 
 function getReadableSizeString(size){

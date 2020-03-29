@@ -171,7 +171,7 @@
         },
         update: function(){
             updateText('networkLastReward', lastStats.network.height.toString());
-            updateText('networkHashrate', getReadableHashRateString(lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + '/s');
+            updateText('networkHashrate', getReadableHashRateString(lastStats.network.difficulty / lastStats.config.coinDifficultyTarget));
             updateTitleText('networkHashrate', (lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + " H/s");
             updateText('networkDifficulty', getReadableDifficultyString(lastStats.network.difficulty));
             updateTitleText('networkDifficulty', lastStats.network.difficulty.toString());

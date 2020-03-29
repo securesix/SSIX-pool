@@ -389,7 +389,7 @@
             $('#networkLastBlockFound').timeago('update', new Date(lastStats.network.timestamp * 1000 - netDrift).toISOString());
             $('#networkDrift').html("<!-- drift " + netDrift + " ms -->");
 
-            updateText('networkHashrate', getReadableHashRateString(lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + '/s');
+            updateText('networkHashrate', getReadableHashRateString(lastStats.network.difficulty / lastStats.config.coinDifficultyTarget));
             updateTitleText('networkHashrate', (lastStats.network.difficulty / lastStats.config.coinDifficultyTarget) + ' H/s');
             updateText('networkDifficulty', getReadableDifficultyString(lastStats.network.difficulty));
             updateTitleText('networkDifficulty', lastStats.network.difficulty);
@@ -399,7 +399,7 @@
 
             updateText('currentEffort', (lastStats.pool.roundHashes / lastStats.network.difficulty * 100).toFixed(1) + '%');
 
-            updateText('poolHashrate', getReadableHashRateString(lastStats.pool.hashrate) + '/s');
+            updateText('poolHashrate', getReadableHashRateString(lastStats.pool.hashrate));
             updateTitleText('poolHashrate', lastStats.pool.hashrate + ' H/s');
 
             if (lastStats.pool.lastBlockFound){
@@ -526,7 +526,7 @@
             var r = data[i];
             if (rows.children.length < i + 1) {
                 if (r.hashrate > 0) {
-                    var app = '<tr data-hashrate="' + r.hashrate + '" data-miner="' + r.miner + '" id="' + r.miner + '"><td>'+(i+1)+'</td>'+'<td>'+r.miner+'</td>'+'<td title="' + r.hashrate + ' H/s">'+getReadableHashRateString(r.hashrate || 0)+'/s</td></tr>';
+                    var app = '<tr data-hashrate="' + r.hashrate + '" data-miner="' + r.miner + '" id="' + r.miner + '"><td>'+(i+1)+'</td>'+'<td>'+r.miner+'</td>'+'<td title="' + r.hashrate + ' H/s">'+getReadableHashRateString(r.hashrate || 0)+'</td></tr>';
                     $( "#top10_rows" ).append(app);
                 }
             } else {
@@ -537,7 +537,7 @@
                     minerRow.setAttribute('id', r.miner);
                     minerRow.children.item(1).innerHTML = r.miner;
                     minerRow.children.item(2).setAttribute('title', r.hashrate + ' H/s');
-                    minerRow.children.item(2).innerHTML = getReadableHashRateString(r.hashrate || 0) + '/s';
+                    minerRow.children.item(2).innerHTML = getReadableHashRateString(r.hashrate || 0);
                     minerRow.style.visibility = "visible";
                 } else {
                     minerRow.style.visibility = "hidden";
@@ -683,7 +683,7 @@
                     } else
                         updateText('yourLastShare', 'Never');
 
-                    updateText('yourHashrateHolder', getReadableHashRateString(data.stats.hashrate || 0) + '/s');
+                    updateText('yourHashrateHolder', getReadableHashRateString(data.stats.hashrate || 0));
                     updateTitleText('yourHashrateHolder', (data.stats.hashrate || 0) + ' H/s');
                     updateText('yourHashes', getReadableHashesString(data.stats.hashes));
                     updateTitleText('yourHashes', data.stats.hashes);
@@ -816,7 +816,7 @@
 
     function showStats (stats) {
         $('#cur_diff').text(stats.network.difficulty);
-        $('#cur_hashrate').text(getReadableHashRateString(stats.pool.hashrate) + '/s');
+        $('#cur_hashrate').text(getReadableHashRateString(stats.pool.hashrate));
         $('#cur_miners').text(stats.pool.miners);
         $('#cur_workers').text(stats.pool.workers);
 
