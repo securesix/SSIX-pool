@@ -142,10 +142,12 @@
 
 <script>
     var xhrGetTransaction;
+    var fetch;
 
     currentPage = {
         destroy: function(){
             if (xhrGetTransaction) xhrGetTransaction.abort();
+            if (fetch) clearTimeout(fetch);
         },
         init: function(){
             renderTransaction();
@@ -174,6 +176,9 @@
             dataType: 'json',
             cache: 'false',
             success: function(data){
+                if (data.error !== undefined) {
+                    fetch = setTimeout(renderTransaction, 15000);
+                }
                 if (data.result !== undefined) {
                     transaction = data.result.txDetails;
                     inputs = data.result.tx.vin;
