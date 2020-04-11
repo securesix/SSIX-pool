@@ -134,6 +134,7 @@
         <div><i class="far fa-money-bill-alt"></i> Last Reward: <span id="networkLastReward"></span></div>
         <div><i class="fa fa-paw"></i> Last Hash: <a id="lastHash" target="_blank"></a></div>
         <div><i class="fas fa-coins"></i> Coins Mined: <span id="totalCoins"></span></div>
+        <div><i class="fas fa-sync-alt"></i> Circulating Supply: <span id="circulatingSupply"></span></div>
         <div><i class="fa fa-percent"></i> Emission: <span id="emissionPercent"></span></div>
         <div><i class="fas fa-cart-arrow-down"></i> Pending Transactions: <a href="./#mempool_transactions"><span id="pendingTransactions"></span></a></div>
         <div><i class="fa fa-bars"></i> Total Transactions: <span id="totalTransactions"></span></div>
@@ -376,6 +377,7 @@
             if (xhrGetPayments) xhrGetPayments.abort();
             if (xhrGetTOP) xhrGetTOP.abort();
             if (xhrGetTotalCoins) xhrGetTotalCoins.abort();
+            if (xhrGetCirculatingSupply) xhrGetCirculatingSupply.abort();
             if (xhrGetInfo) xhrGetInfo.abort();
         },
         init: function(){
@@ -472,6 +474,7 @@
             updateText('blockSolvedTime', lastStats.pool.hashrate ? getReadableTime(lastStats.network.difficulty / lastStats.pool.hashrate) : 'N/A');
             updateText('calcHashSymbol', lastStats.config.symbol);
             updateTotalCoins();
+            updateCirculatingSupply();
             updateInfo();
             updateText('blocksTotal', lastStats.pool.totalBlocks.toString());
 
@@ -871,6 +874,24 @@
                 updateText('emissionPercent', (data.result.block.alreadyGeneratedCoins / 300000000).toFixed(2) + '%');
             }
         });
+    }
+
+
+
+    var xhrGetCirculatingSupply;
+    function updateCirculatingSupply(){
+       if (xhrGetCirculatingSupply) xhrGetCirculatingSupply.abort();
+        xhrGetCirculatingSupply = $.ajax({
+            url: 'https://explorer.talleo.org/api/get_circulating_coins',
+            method: "GET",
+            dataType: 'json',
+            cache: 'false'
+        })
+            .done(function (data) {
+                if (data.hasOwnProperty('circulatingCoins')) {
+                    updateText('circulatingSupply', getReadableCoins(data.circulatingCoins));
+                }
+            });
     }
 
 
