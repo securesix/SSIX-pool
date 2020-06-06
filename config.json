@@ -88,6 +88,10 @@
       "weight": 120,
       "lastBlockCheckRate": 1
     },
+    "floodProtection": {
+      "enabled": false,
+      "seconds": 5
+    },
     "walletBlacklist": []
   },
 
