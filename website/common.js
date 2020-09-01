@@ -52,9 +52,16 @@ function getReadableTime(seconds){
     }
 
     var amount = seconds;
+    var amount2 = 0;
     for (var i = 0; i < units.length; i++){
-        if (amount < units[i][0])
-            return formatAmounts(amount, units[i][1]);
+        if (amount < units[i][0]) {
+            if (Math.round(amount2) == 0) {
+                return formatAmounts(amount, units[i][1]);
+            } else {
+                return formatAmounts(amount, units[i][1]) + " and " + formatAmounts(amount2, units[i-1][1]);
+            }
+        }
+        amount2 = amount % units[i][0];
         amount = amount / units[i][0];
     }
     return formatAmounts(amount, units[units.length - 1][1]);
