@@ -1,0 +1,100 @@
+<script>
+
+	function formatLuck(difficulty, shares) {
+		var percent = Math.round(shares / difficulty * 100);
+		if(!percent) {
+			return '<span class="luckGood">?</span>';
+		}
+		else if(percent <= 100) {
+			return '<span class="luckGood">' + percent + '%</span>';
+		}
+		else {
+			return '<span class="luckBad">' + percent + '%</span>';
+		}
+	}
+
+	function getStats(promptPassword) {
+
+		var password = docCookies.getItem('password');
+
+		if(!password || promptPassword) {
+			password = prompt('Enter admin password');
+		}
+
+		$('#loading').show();
+		$.ajax({
+			url: api + '/admin_stats',
+			data: {password: password},
+			success: function(data) {
+				docCookies.setItem('password', password, Infinity);
+				$('#loading').hide();
+				renderData(data);
+			},
+			error: function(e) {
+				docCookies.removeItem('password');
+				getStats(true);
+			}
+		});
+	}
+
+	function renderData(data) {
+		$('#totalOwed').text(getReadableCoins(data.totalOwed, null, true));
+		$('#totalPaid').text(getReadableCoins(data.totalPaid, null, true));
+		$('#totalMined').text(getReadableCoins(data.totalRevenue, null, true));
+		$('#profit').text(getReadableCoins(data.totalRevenue - data.totalOwed - data.totalPaid, null, true));
+		$('#averageLuck').html(formatLuck(data.totalDiff, data.totalShares));
+		$('#orphanPercent').text((data.blocksUnlocked ? data.blocksOrphaned / data.blocksUnlocked * 100 : 0).toFixed(2) + '%');
+		$('#registeredAddresses').text(data.totalWorkers);
+		$('#blocksUnlocked').text(data.blocksUnlocked);
+		$('#blocksOrphaned').text(data.blocksOrphaned);
+		$('#totalShares').text(getReadableHashesString(data.totalShares));
+	}
+
+	$(function() {
+		getStats();
+	});
+</script>
+<div class="row adminStats">
+	<div class="col-sm-3 color1">
+		<h4><span class="far fa-money-bill-alt"></span> Total Owed</h4>
+		<span class="statValue" id="totalOwed">...</span>
+	</div>
+	<div class="col-sm-3 color2">
+		<h4><span class="far fa-money-bill-alt"></span> Total Paid</h4>
+		<span class="statValue" id="totalPaid">...</span>
+	</div>
+	<div class="col-sm-3 color3">
+		<h4><span class="far fa-money-bill-alt"></span> Total Mined</h4>
+		<span class="statValue" id="totalMined">...</span>
+	</div>
+	<div class="col-sm-3 color4">
+		<h4><span class="fas fa-dollar-sign"></span> Profit (before tx fees)</h4>
+		<span class="statValue" id="profit">...</span>
+	</div>
+	<div class="col-sm-3 color5">
+		<h4><span class="fa fa-cubes"></span> Blocks Unlocked</h4>
+		<span class="statValue lead" id="blocksUnlocked">...</span>
+	</div>
+	<div class="col-sm-3 color6">
+		<h4><span class="fas fa-dice"></span> Average Luck (shares/diff)</h4>
+		<span class="statValue lead" id="averageLuck">...</span>
+	</div>
+	<div class="col-sm-3 color7">
+		<h4><span class="fas fa-percent"></span> Orphan Blocks</h4>
+		<span class="statValue lead" id="blocksOrphaned">...</span> <br><span class="statValue" style="text-align: right;">(<span id="orphanPercent">0%</span>)</span>
+	</div>
+	<div class="col-sm-3 color8">
+		<h4><span class="fa fa-users"></span> Registered Addresses</h4>
+		<span class="statValue lead" id="registeredAddresses">...</span>
+	</div>
+	<div class="col-sm-3 color9">
+		<h4><span class="fa fa-bars"></span> Total Shares</h4>
+		<span class="statValue" id="totalShares">...</span>
+	</div>
+</div>
+
+
+<div id="poolStats" class="row">
+
+        
+</div>

@@ -1,0 +1,124 @@
+<style>
+	td:nth-child(1),
+	td:nth-child(8) {
+		text-align: center
+	}
+
+	td:nth-child(2),
+	td:nth-child(3),
+	td:nth-child(4),
+	td:nth-child(5),
+	td:nth-child(6),
+	td:nth-child(7) {
+		text-align: right
+	}
+</style>
+<h3>Users List (<span id="totalUsers">0</span> users)</h3>
+
+<!-- ///  define Handlebars template  /// -->
+<script id="usersListTable" type="text/x-handlebars-template">
+	{{#each users}}
+	<tr>
+		<td class="col1"><a href="/?wallet={{this.miner}}#worker_stats">{{this.miner}}</a></td>
+		<td class="col2" data-sort="{{this.hashrate}}">{{this.readableHashrate}}</td>
+		<td class="col3" data-sort="{{this.hashes}}">{{this.readableHashes}}</td>
+		<td class="col4" data-sort="{{this.pending}}">{{this.readablePending}}</td>
+		<td class="col5" data-sort="{{this.minimumPayout}}">{{this.readableMinimumPayout}}</td>
+		<td class="col6" data-sort="{{this.paid}}">{{this.readablePaid}}</td>
+		<td class="col7" data-sort="{{this.hashesPerCoin}}">{{this.readableHashesPerCoin}}</td>
+		<td class="col8" data-sort="{{this.lastShare}}">{{this.timeago}}</td>
+	</tr>
+	{{/each}}
+</script>
+
+<script>
+	function parseUsers(wallets) {
+		var totalUsers = 0;
+		var walletsArray = [],
+			properObject = {};
+		for(var wallet in wallets) {
+			if(wallets.hasOwnProperty(wallet)) {
+				var userData = wallets[wallet];
+				var totalPaid = (parseInt(userData.pending || 0) + parseInt(userData.paid || 0)) / lastStats.config.coinUnits;
+				walletsArray.push({
+					miner: wallet,
+					wallet: userData,
+					hashrate: userData.hashrate || 0,
+					hashes: userData.hashes || 0,
+					pending: userData.pending || 0,
+					minimumPayout: userData.minimumPayout || 0,
+					paid: userData.paid || 0,
+					hashesPerCoin: (totalPaid ? ((userData.hashes || 0) / totalPaid) : 0),
+					lastShare: userData.lastShare || 0,
+					timeago: userData.lastShare ? $.timeago(new Date(userData.lastShare * 1000).toISOString()) : 'Never',
+					readablePending: getReadableCoins(userData.pending, null, true),
+					readableMinimumPayout: getReadableCoins(userData.minimumPayout, null, true),
+					readablePaid: getReadableCoins(userData.paid, null, true),
+					readableHashesPerCoin: getReadableHashesString(totalPaid ? ((userData.hashes || 0) / totalPaid) : 0),
+					readableHashrate: getReadableHashRateString(userData.hashrate),
+					readableHashes: getReadableHashesString(userData.hashes || 0)
+				});
+				totalUsers++;
+			}
+		}
+    	$('#totalUsers').html(totalUsers);
+
+		properObject['users'] = walletsArray.sort(function(a, b) {
+			return a.wallet.hashrate - b.wallet.hashrate
+		}).reverse();
+
+		return properObject;
+	}
+
+	function createUserTable(promptPassword) {
+    	var password = docCookies.getItem('password');
+
+		if(!password || promptPassword) {
+			password = prompt('Enter admin password');
+		}
+    
+		$('#coinSymbol').html(lastStats.config.symbol);
+
+		$.ajax({
+			url: api + '/admin_users',
+			data: {password: password},
+			cache: false,
+			dataType: 'json',
+			success: function(data) {
+				docCookies.setItem('password', password, Infinity);
+				renderTemplate(parseUsers(data), '#usersListTable', '#template');
+			},
+			error: function(e) {
+				docCookies.removeItem('password');
+			}
+		});
+	}
+
+	$(function() {
+		$('[data-toggle="tooltip"]').tooltip();
+		$('.usersList th.sort').on('click', sortTable);
+		createUserTable();
+	});
+
+</script>
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover table-striped usersList">
+            <thead>
+            <tr>
+                <th class="col1">Wallet</th>
+                <th class="col2 sort">Hashrate <i class="fa fa-sort"></i></th>
+                <th class="col3 sort">Hashes <i class="fa fa-sort"></i></th>
+                <th class="col4 sort">Pending <i class="fa fa-sort"></i></th>
+                <th class="col5 sort">Minimum payout <i class="fa fa-sort"></i></th>
+                <th class="col6 sort">Paid <i class="fa fa-sort"></i></th>
+                <th class="col7 sort">Hashes per <abbr id="coinSymbol">coin</abbr> <i class="fa fa-sort"></i></th>
+                <th class="col8 sort">Last share <i class="fa fa-sort"></i></th>
+            </tr>
+            </thead>
+            <tbody id="template">
+
+            </tbody>
+        </table>
+    </div>
+</div>
