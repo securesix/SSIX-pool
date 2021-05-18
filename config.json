@@ -137,13 +137,13 @@
 
     "daemon": {
         "host": "127.0.0.1",
-        "port": 33888
+        "port": 8201
     },
 
     "wallet": {
         "host": "127.0.0.1",
-        "port": 33777,
-        "password": "<replace with rpc password>"
+        "port": 8203,
+    
     },
 
     "redis": {
