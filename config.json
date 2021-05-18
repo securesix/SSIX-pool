@@ -1,6 +1,6 @@
 {
-    "coin": "talleo",
-    "symbol": "TLO",
+    "coin": "SSIX",
+    "symbol": "SSIX",
     "coinUnits": 100,
     "coinDifficultyTarget": 60,
 
@@ -19,7 +19,7 @@
   "poolServer": {
     "enabled": true,
     "clusterForks": "auto",
-    "poolAddress": "TA4yACzMYuFYq7V6xVAWYHeS39jQ8w4mKRowpY6NskGuS1rZpjcWuCpdeCypwUCJrK9mGqVW9o1pY2EG3HW7BZkR2YRcc4YNa",
+    "poolAddress": "S6GCukF9B8KjTZDSmAiT4nMLPsorc5A9udE7kxVqtCA8WdAHVULNvQC4JHseqfFpiWU7YTRDFZ1KDao4Wrw4kSts1u1aecpKW",
     "blockRefreshInterval": 1000,
     "minerTimeout": 3600,
     "sslCert": "./cert.pem",
@@ -55,7 +55,7 @@
         "port": 11111,
         "difficulty": 20000,
         "desc": "SSL connection",
-        "ssl": true
+        "ssl": false
       }
     ],
     "varDiff": {
@@ -127,7 +127,7 @@
         "port": 8117,
         "blocks": 30,
         "payments": 30,
-        "password": "your_password",
+        "password": "haslo",
         "ssl": false,
         "sslPort": 8119,
         "sslCert": "./cert.pem",
