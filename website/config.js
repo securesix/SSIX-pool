@@ -1,8 +1,8 @@
-var api = "http://poolhost.com:1117";
+var api = "https://stats.cybersecuresix.com/";
 
-var api_blockexplorer = "http://daemonhost.com:1118";
+var api_blockexplorer = "https://api.cybersecuresix.com/";
 
-var poolHost = "poolhost.com";
+var poolHost = "pool.cybersecuresix.com";
 
 var irc = "irc.freenode.net/#poolhost";
 
