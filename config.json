@@ -22,9 +22,9 @@
     "poolAddress": "S6GCukF9B8KjTZDSmAiT4nMLPsorc5A9udE7kxVqtCA8WdAHVULNvQC4JHseqfFpiWU7YTRDFZ1KDao4Wrw4kSts1u1aecpKW",
     "blockRefreshInterval": 1000,
     "minerTimeout": 3600,
-    "sslCert": "./cert.pem",
-    "sslKey": "./privkey.pem",
-    "sslCA": "./chain.pem",
+    "sslCert": "/etc/letsencrypt/live/pool.cybersecuresix.com/cert.pem",
+    "sslKey": "/etc/letsencrypt/live/pool.cybersecuresix.com/privkey.pem",
+    "sslCA": "/etc/letsencrypt/live/pool.cybersecuresix.com/fullchain.pem",
     "ports": [
       {
         "port": 3333,
