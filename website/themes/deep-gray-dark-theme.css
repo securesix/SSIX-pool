@@ -14,9 +14,9 @@ body {
   color: #fff;
 }
 .navbar-inverse {
-  background-color: #464646;
+  background-color: #141414;
   border-color: #000000;  
-  border-bottom: 1px solid #6d6d6d;
+  border-bottom: 2px solid #6d6d6d;
 }
 .navbar-inverse .container {
   background-color: rgba(0, 0, 0, 0);
@@ -53,13 +53,13 @@ hr {
   border-top-color: #818181 !important;
 }
 .stats > div:not(#addressError) {
-  color: #E2E2E2;
+  color: #EE6123;
 }
 .stats > div:not(#addressError) > i.fa {
   color: #A5A5A5; 
 }
 .stats > div:not(#addressError) > span:not(.input-group-btn):first-of-type { 
-  color: #755900;
+  color: #ffffff;
 }
 .form-control {
   border: 1px solid #6d6d6d;  
