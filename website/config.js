@@ -1,6 +1,6 @@
-var api = "https://stats.cybersecuresix.com/";
+var api = "https://stats.cybersecuresix.com";
 
-var api_blockexplorer = "https://api.cybersecuresix.com/";
+var api_blockexplorer = "https://api.cybersecuresix.com";
 
 var poolHost = "pool.cybersecuresix.com";
 
